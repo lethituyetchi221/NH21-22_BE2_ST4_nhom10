@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use App\Models\User;
+use App\Models\Bill_detail;
+use App\Models\Order;
+use Illuminate\Support\Facades\Auth;
+use Cart;
 
-class UserController extends Controller
+class Bill_detailController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,55 +19,37 @@ class UserController extends Controller
     {
         //
     }
-    public function updateProfile(Request $request)
+    public function addBill(Request $request)
     {
-        $user =  Auth::user();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->save();
-        return redirect()->route('showProfile');
-    }
-    public function showEditProfile()
-    {
-        return view('auth.edit-profile');
-    }
-    public function showProfile()
-    {
-        return view('auth.profile');
-    }
-    public function register(Request $request)
-    {
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = bcrypt($request->password);
-        $user->role = 0;
-        $user->save();
+        $cart = Cart::content();
 
-        return redirect()->route('login');
-    }
+        $bill_detail = new Bill_detail();
+        $bill_detail->user_id  = Auth::user()->id;
+        $bill_detail->name  = $request->name;
+        $bill_detail->phone  = $request->phone;
+        $bill_detail->email  = $request->email;
+        $bill_detail->address  = $request->address;
+        // $bill_detail->total  = Cart::priceTotal();
+        $bill_detail->note  = $request->note;
+        $bill_detail->create_date  = DATE(NOW());
 
-    public function logout()
-    {
-        Auth::logout();
 
-        return redirect()->route('home');
-    }
 
-    public function showLogin()
-    {
-        return view('login');
-    }
+        $bill_detail->save();
 
-    public function login(Request $request)
-    {
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
-            return redirect()->route('home');
-        } else {
-            return redirect()->route('login');
+        foreach ($cart as $item) {
+            $order = new Order();
+            $order->product_id  = $item->id;
+            $order->total  = $item->price * $item->qty;
+            $order->quanty  = $item->qty;
+            $order->bill_detail_id = $bill_detail->id;
+            $order->save();
+            $bill_detail->total+=$order->total;
+            $bill_detail->save();
         }
+        Cart::destroy();
+        return redirect()->route('showCart');
     }
-
     /**
      * Show the form for creating a new resource.
      *

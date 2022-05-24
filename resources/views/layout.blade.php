@@ -1,4 +1,6 @@
 <?php use Illuminate\Support\Facades\Auth; ?>
+<?php $content = Cart::content(); ?>
+
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -12,6 +14,7 @@
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 
     <!-- Css Styles -->
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" type="text/css">
@@ -39,9 +42,9 @@
         <div class="humberger__menu__cart">
             <ul>
                 <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-                <li><a href="{{route('showCart',['id'=>1])}}"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+                <li><a href="{{ route('showCart') }}"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
             </ul>
-            <div class="header__cart__price">item: <span>$150.00</span></div>
+            <div class="header__cart__price">item: <span>{{Cart::subtotal();}}</span></div>
         </div>
         <div class="humberger__menu__widget">
             <div class="header__top__right__language">
@@ -55,12 +58,13 @@
             </div>
             <div class="header__top__right__auth">
                 @if (Auth::check())
-               <a href="{{route('logout',['id'=>1])}}"><i class="fa fa-user"></i> Logout</a>
-               @else
-                <a href="{{route('showLogin')}}"><i class="fa fa-user"></i> Login</a>
+                    {{-- <a href="{{route('logout')}}"><i class="fa fa-user"></i> Logout</a> --}}
+                    <a href="{{ route('showProfile') }}"><i class="fa fa-user"></i> {{ Auth::user()->name }}</a>
+                @else
+                    <a href="{{ route('showLogin') }}"><i class="fa fa-user"></i> Login</a>
                 @endif
-                {{-- <a href="{{ route('logout') }}"><i class="fa fa-user"></i> Logout</a>
-                <a href="{{ route('showLogin') }}"><i class="fa fa-user"></i> Login</a> --}}
+                {{-- <a href="{{ route('showLogin') }}"><i class="fa fa-user"></i> Login</a> --}}
+
             </div>
         </div>
         <nav class="humberger__menu__nav mobile-menu">
@@ -126,12 +130,14 @@
                             </div>
                             <div class="header__top__right__auth">
                                 @if (Auth::check())
-                                    <a href="{{ route('logout',['id'=>1]) }}"><i class="fa fa-user"></i> Logout</a>
+                                    {{-- <a href="{{route('logout')}}"><i class="fa fa-user"></i> Logout</a> --}}
+                                    <a href="{{ route('showProfile') }}"><i class="fa fa-user"></i>
+                                        {{ Auth::user()->name }}</a>
                                 @else
                                     <a href="{{ route('showLogin') }}"><i class="fa fa-user"></i> Login</a>
                                 @endif
-                                {{-- <a href="{{ route('logout') }}"><i class="fa fa-user"></i> Logout</a>
-                                <a href="{{ route('showLogin') }}"><i class="fa fa-user"></i> Login</a> --}}
+                                {{-- <a href="{{ route('showLogin') }}"><i class="fa fa-user"></i> Login</a> --}}
+
                             </div>
                         </div>
                     </div>
@@ -149,12 +155,16 @@
                     <nav class="header__menu">
                         <ul>
 
-                            <li <?php if(substr_count('/index', $_SERVER['PHP_SELF'])>0){echo 'class="active"';}  ?>><a href="{{ url('/index') }}">Home</a></li>
-                            <li <?php if(substr_count('/shop-grid/', $_SERVER['PHP_SELF'])>0){echo 'class="active"';}  ?>><a href="{{ route('shop-grid', ['id' => 1]) }}" >Shop </a></li>
-                           
+                            <li <?php if (substr_count('/index', $_SERVER['PHP_SELF']) > 0) {
+                                echo 'class="active"';
+                            } ?>><a href="{{ url('/index') }}">Home</a></li>
+                            <li <?php if (substr_count('/shop-grid/', $_SERVER['PHP_SELF']) > 0) {
+                                echo 'class="active"';
+                            } ?>><a href="{{ route('shop-grid', ['id' => 1]) }}">Shop </a></li>
+
                             <li><a href="#">Pages</a>
                                 <ul class="header__menu__dropdown">
-                                    <li><a href="{{route('showCart',['id'=>1])}}">Shoping Cart</a></li>
+                                    <li><a href="{{ route('showCart') }}">Shoping Cart</a></li>
                                     <li><a href="{{ url('/checkout') }}">Check Out</a></li>
                                     <li><a href="{{ url('/blog-details') }}">Blog Details</a></li>
                                 </ul>
@@ -169,9 +179,10 @@
                         <ul>
                             <?php $content = Cart::content(); ?>
                             <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-                            <li><a href="{{route('showCart',['id'=>1])}}"><i class="fa fa-shopping-bag"></i> <span>{{count($content)}}</span></a></li>
+                            <li><a href="{{ route('showCart') }}"><i class="fa fa-shopping-bag"></i>
+                                    <span>{{ count($content) }}</span></a></li>
                         </ul>
-                        <div class="header__cart__price">item: <span>$150.00</span></div>
+                        <div class="header__cart__price">item: <span>{{Cart::subtotal();}}</span></div>
                     </div>
                 </div>
             </div>
@@ -312,11 +323,15 @@
         </div>
     </footer>
     <!-- Footer Section End -->
-<script>
-function AddCart(){
-    alertify.success('Thêm thành công');
-}
-</script>
+    <script>
+        function AddCart() {
+            alertify.success('Thêm thành công');
+        };
+
+        function Checkout() {
+            alertify.success('Đặt hàng thành công');
+        };
+    </script>
     <!-- Js Plugins -->
     <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
@@ -340,6 +355,8 @@ function AddCart(){
     <!-- Bootstrap theme -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css" />
 
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 
 </body>

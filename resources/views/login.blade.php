@@ -196,7 +196,8 @@ a{
                     @csrf
                 <input type="text" placeholder="Email" name="email" required>
 				<input type="password" placeholder="Password" name="password" required>
-                <input type="checkbox" name="remember" id=""> Remember
+                <input type="checkbox" name="remember" id="remember"> 
+                <label for="remember">Remember</label> 
                 <br>
                 <input type="submit" value="Login" name="login">
 				<a href="">Forgot password?</a>

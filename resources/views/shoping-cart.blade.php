@@ -81,11 +81,64 @@
                 <div class="col-lg-6">
                     <div class="shoping__continue">
                         <div class="shoping__discount">
-                            <h5>Discount Codes</h5>
-                            <form action="#">
+                            <h5>View Bill</h5>
+                            {{-- <form action="#">
                                 <input type="text" placeholder="Enter your coupon code">
                                 <button type="submit" class="site-btn">APPLY COUPON</button>
-                            </form>
+                            </form> --}}
+                      <div class="row">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="shoping__product">Name</th>
+                                    <th>Phone</th>
+                                    <th>Address</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{-- @if (session()->has('newCart')) --}}
+                                {{-- @if ($newCart!=null) --}}
+                               
+                                @foreach($bill_by_userId as $item)
+                                <tr>
+                                    <div class="col-lg-4">
+                                        <td class="shoping__cart__item">
+                                            {{-- <a href="{{route('shop-details', ['id'=>$item->id])}}"> <img style="width: 100px"; height="100px" src="{{asset('img/product/'.$item->options->image)}}" alt=""></a> --}}
+                                            {{$item->name}}
+                                            {{-- <a href="{{route('shop-details', ['id'=>$item->id])}}"><h5>{{$item->name}}</h5></a> --}}
+                                        </td>
+                                    </div>
+                                    <div class="col-lg-4">
+                                      <td class="shoping__cart__price">
+                                        {{$item->phone}}
+                                    </td>
+                                    </div>
+                                    <div class="col-lg-4">
+
+                                    </div>
+                                    <td class="shoping__cart__quantity">
+                                        {{-- <div class="quantity">
+                                            <div class="pro-qty">
+                                                <input type="text" value="{{$item->qty}}">
+                                            </div>
+                                        </div> --}}
+                                        {{number_format($item->total)}}
+                                    </td>
+                                    <td class="shoping__cart__total">
+                                        {{$item->create_date}}
+                                    </td>
+                                    <td class="shoping__cart__item__close">
+                                        {{-- <a href="{{route('deleteCart', ['rowId'=> $item->rowId])}}"> <span class="icon_close"></span></a> --}}
+                                       
+                                    </td>
+                                </tr>
+                                @endforeach
+                              {{-- @endif --}}
+                            </tbody>
+                        </table>
+                      </div>
                         </div>
                     </div>
                 </div>
@@ -93,15 +146,16 @@
                     <div class="shoping__checkout">
                         <h5>Cart Total</h5>
                         <ul>
-                            <li>Subtotal <span> {{$cart_priceTotal." VND"}}</span></li>
-                            <li>Total <span> {{$cart_priceTotal." VND"}}</span></li>
+                            <li>Subtotal <span> </span></li>
+                            <li>Total <span> </span></li>
                         </ul>
-                        <a href="#" class="primary-btn">PROCEED TO CHECKOUT</a>
+                        <a href="{{url('checkout')}}" class="primary-btn">PROCEED TO CHECKOUT</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
     <!-- Shoping Cart Section End -->
+  
 
     @endsection

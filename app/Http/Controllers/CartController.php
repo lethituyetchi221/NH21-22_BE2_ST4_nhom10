@@ -5,10 +5,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Models\Bill_detail;
+use App\Models\Order;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Cart;
+use App\Models\Type_product;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
@@ -27,7 +31,8 @@ class CartController extends Controller
             'weight'=>0,
             'options'=>[ 
                 'image'=>$productByID->image,
-                'create_date'=>$productByID->create_date] 
+                'create_date'=>$productByID->create_date,
+                'status'=>0] 
         ]);
        // dd(Cart::content());
         return redirect()->route('showCart');
@@ -48,34 +53,26 @@ class CartController extends Controller
         return redirect()->route('showCart');
     }
     function deleteItem($rowID){
-        Cart::remove($rowID);
+        Cart::remove($rowID);   
         return redirect()->route('showCart');
     }
 
-     //decrement quality
-     function deQuality($rowID){
-        $row = Cart::get($rowID);
-        Cart::update($rowID,$row->qty -1);
-
-       return redirect()->route('cart');
-    }
-    
-    //increment quality
-    function inQuality($rowID){
-        $row = Cart::get($rowID);
-        $product_id =   $row->id; 
-        Cart::update($rowID,$row->qty +1);
-     
    
-        return redirect()->route('cart');
-    }
 
-    public function showCart($id)
+    public function showCart()
+    {
+        $bill_by_userId = Bill_detail::where('user_id','=', Auth::user()->id)->orderBy('create_date', 'desc')->get();
+        $cart_priceTotal = Cart::priceTotal();
+        $all_typeProduct= Type_product::all();
+        return view('shoping-cart', compact('cart_priceTotal','all_typeProduct','bill_by_userId'));
+    }
+    public function billSuccess()
     {
         $cart_priceTotal = Cart::priceTotal();
-
-        return view('shoping-cart', compact('cart_priceTotal'));
+        $success = "<script>alertify.success('Đặt hàng thành công');</script>";
+        return view('shoping-cart', compact('cart_priceTotal', 'success'));
     }
+    
 
     public function index()
     {
