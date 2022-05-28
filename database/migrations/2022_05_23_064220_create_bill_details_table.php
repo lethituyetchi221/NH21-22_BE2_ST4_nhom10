@@ -22,6 +22,7 @@ class CreateBillDetailsTable extends Migration
             $table->string('email')->nullable();
             $table->string('address');
             $table->double('total')->nullable();
+            $table->double('status')->nullable();
 
             $table->string('note')->nullable();
             $table->datetime('create_date');

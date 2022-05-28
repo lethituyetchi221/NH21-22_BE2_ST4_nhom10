@@ -14,16 +14,17 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index($type_id)
-    {$type_id= $type_id;
-        $all_typeProduct= Type_product::all();
-    //    $all_product_by_type_id = Product::where('type_id','=', $type_id)->with('type_products')->get();
-       $all_product_by_type_id = Product::where('type_id','=', $type_id)->with('type_products')->paginate(9);
-       $latest_product_first = Product::where('type_id','=', $type_id)->orderBy('create_date', 'desc')->limit(3)->get();
-       $latest_product_last = Product::where('type_id','=', $type_id)->orderBy('create_date', 'desc')->offset(4)->limit(3)->get();
-       return view('/shop-grid', compact('all_product_by_type_id','all_typeProduct','type_id','latest_product_first','latest_product_last'));
+    {
+        $type_id = $type_id;
+        $all_typeProduct = Type_product::all();
+        //    $all_product_by_type_id = Product::where('type_id','=', $type_id)->with('type_products')->get();
+        $all_product_by_type_id = Product::where('type_id', '=', $type_id)->with('type_products')->paginate(9);
+        $latest_product_first = Product::where('type_id', '=', $type_id)->orderBy('create_date', 'desc')->limit(3)->get();
+        $latest_product_last = Product::where('type_id', '=', $type_id)->orderBy('create_date', 'desc')->offset(4)->limit(3)->get();
+        return view('/shop-grid', compact('all_product_by_type_id', 'all_typeProduct', 'type_id', 'latest_product_first', 'latest_product_last'));
     }
-    
 
+  
     /**
      * Show the form for creating a new resource.
      *

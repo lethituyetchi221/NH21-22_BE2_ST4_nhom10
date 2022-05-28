@@ -9,7 +9,11 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Bill_detailController;
+use App\Http\Controllers\WishlistController;
 use App\Models\Bill_detail;
+
+use App\Http\Controllers\Admin\AdminController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -22,7 +26,6 @@ use App\Models\Bill_detail;
 |
 */
 
-// Route::get('/addOrder',[OrderController::class, 'index'])->name('addOrder');
 
 Route::get('/shop-grid/{id}', [ProductController::class, 'index'])->name('shop-grid');
 Route::get('/search', [SearchController::class, 'index'])->name('search');
@@ -42,33 +45,56 @@ Route::post('/addCart/{id}', [CartController::class, 'addCartPost'])->name('addC
 Route::get('/addCart/{id}', [CartController::class, 'addCartGet'])->name('addCartGet');
 Route::get('/deleteCart/{rowId}', [CartController::class, 'deleteItem'])->name('deleteCart');
 Route::get('/shoping-cart', [CartController::class, 'showCart'])->name('showCart');
-// Route::get('/billSuccess', [CartController::class, 'billSuccess'])->name('billSuccess');
 
 
-// Route::get('/checkout/{id}',[OrderController::class, 'addOrder'])->name('addOrder');
-// Route::get('/addOrder',[OrderController::class, 'addOrder'])->name('addOrder');
-// Route::get('/addOrder',[OrderController::class, 'addOrder'])->name('addOrder');
+Route::get('/checkout', [PageController::class, 'checkout'])->name('checkout')->middleware('auth')->middleware('checkCheckout');
 Route::post('/addBill',[Bill_detailController::class, 'addBill'])->name('addBill');
-// Route::get('/checkout/{id}/{id1}',[Bill_detailController::class, 'addBill'])->name('addBill');
-// Route::get('/indexorder',[OrderController::class, 'index'])->name('indexorder');
+Route::get('/bill-detail/{bill_id}', [Bill_detailController::class, 'showBillDetail'])->name('showBillDetail');
+Route::get('/deleteBill/{bill_id}', [Bill_detailController::class, 'deleteBill'])->name('deleteBill');
+Route::get('/showEditBill/{bill_id}', [Bill_detailController::class, 'showEditBill'])->name('showEditBill');
+Route::post('/editBill/{bill_id}', [Bill_detailController::class, 'editBill'])->name('editBill');
+Route::get('/successBill/{bill_id}', [Bill_detailController::class, 'successBill'])->name('successBill');
+
+Route::get('/showWishlist', [WishlistController::class, 'showWishlist'])->name('showWishlist')->middleware('auth');
+Route::get('/addWishlist/{id}', [WishlistController::class, 'addWishlist'])->name('addWishlist');
+
+//admin
+Route::get('/item/{id}', [AdminController::class, 'item'])->name('item');
+Route::get('/showProduct', [AdminController::class, 'showProduct'])->name('showProduct');
+Route::get('/showProtype', [AdminController::class, 'showProtype'])->name('showProtype');
+Route::get('/showBill', [AdminController::class, 'showBill'])->name('showBill');
+Route::get('/showOrder', [AdminController::class, 'showOrder'])->name('showOrder');
+Route::get('/admin.user', [AdminController::class, 'showUser'])->name('admin.user');
 
 
-// Route::get('/', function(){
-//     return view('admin.layout.layout.index');
-// });
+//product
+Route::get('/ShowAddProduct', [AdminController::class, 'ShowAddProduct'])->name('ShowAddProduct');
+Route::get('/ShowEditProduct/{id}', [AdminController::class, 'ShowEditProduct'])->name('ShowEditProduct');
+Route::post('/addProduct', [AdminController::class, 'addProduct'])->name('addProduct');
+Route::post('/editProduct/{id}', [AdminController::class, 'editProduct'])->name('editProduct');
+Route::get('/deleteProduct/{id}', [AdminController::class, 'deleteProduct'])->name('deleteProduct');
 
 
-// Route::get('/login', function(){
-//     return view('login');
-// })->name('showLogin');
+//protype
+Route::post('/addProtype', [AdminController::class, 'addProtype'])->name('addProtype');
+Route::post('/editProtype/{id}', [AdminController::class, 'editProtype'])->name('editProtype');
+Route::get('/deleteProtype/{id}', [AdminController::class, 'deleteProtype'])->name('deleteProtype');
+
+
+//bill
+Route::get('/showEditBill_admin/{id}', [AdminController::class, 'showEditBill_admin'])->name('showEditBill_admin');
+Route::post('/editBill_admin/{id}', [AdminController::class, 'editBill_admin'])->name('editBill_admin');
+Route::get('/deleteBill_admin/{id}', [AdminController::class, 'deleteBill_admin'])->name('deleteBill_admin');
+
+
+//user
+Route::get('/deleteUser/{id}', [AdminController::class, 'deleteUser'])->name('deleteUser');
+Route::post('/addUser', [AdminController::class, 'addUser'])->name('addUser');
+
+
 
 Route::get('/{id}', [PageController::class, 'index'])->name('index');
+Route::get('/admin/{id}', [AdminController::class, 'index'])->name('index')->middleware('auth')->middleware('checkAdmin');
+// Route::get('/admin/index', [AdminController::class, 'showAdminIndex'])->name('showAdminIndex')->middleware('auth')->middleware('checkAdmin');
 
 
-
-
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth'])->name('dashboard');
-
-// require __DIR__.'/auth.php';

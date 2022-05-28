@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Bill_detail;
 
 class UserController extends Controller
 {
@@ -32,18 +33,28 @@ class UserController extends Controller
     }
     public function showProfile()
     {
-        return view('auth.profile');
+        $bill_by_userId = Bill_detail::where('user_id', '=', Auth::user()->id)->orderBy('create_date', 'desc')->get();
+
+        return view('auth.profile', compact('bill_by_userId'));
     }
     public function register(Request $request)
     {
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = bcrypt($request->password);
-        $user->role = 0;
-        $user->save();
+        if ((count(User::where('email', $request->email)->get()) == 0)) {
+            if ($request->confirmPassword == $request->password) {
+                $user = new User();
+                $user->name = $request->name;
+                $user->email = $request->email;
+                $user->password = bcrypt($request->password);
+                $user->role = 0;
+                $user->save();
 
-        return redirect()->route('login');
+                return redirect()->back()->with('Success', 'Đăng kí thành công');
+            } else {
+                return redirect()->back()->with('Error', 'Mật khẩu không khớp');
+            }
+        } else {
+            return redirect()->back()->with('Error', 'Email đã tồn tại');
+        }
     }
 
     public function logout()
@@ -61,7 +72,11 @@ class UserController extends Controller
     public function login(Request $request)
     {
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
-            return redirect()->route('home');
+            if (Auth::user()->role == 0) {
+                return redirect()->route('home');
+            } else {
+                return redirect()->route('showAdminIndex');
+            }
         } else {
             return redirect()->route('login');
         }

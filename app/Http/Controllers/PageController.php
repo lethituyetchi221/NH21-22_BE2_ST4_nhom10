@@ -21,14 +21,13 @@ class PageController extends Controller
         // $salads_product= Product::where('type_id','=', 3)->get();
         // $monAnKem_product= Product::where('type_id','=', 4)->get();
         // return view($id, compact('all_product', 'sashimi_product', 'sushi_product', 'salads_product','monAnKem_product'));
-        $all_typeProduct= Type_product::all();
-        $featured_product= Product::where('is_featured','=',1)->with('type_products')->get();
-        $latest_product_of_type1 = Product::where('type_id','=', 1)->with('type_products')->orderBy('create_date', 'desc')->limit(1)->get();
-        $latest_product_of_type2 = Product::where('type_id','=', 2)->with('type_products')->orderBy('create_date', 'desc')->limit(1)->get();
-        $latest_product_of_type3 = Product::where('type_id','=', 3)->with('type_products')->orderBy('create_date', 'desc')->limit(1)->get();
-        $latest_product_of_type4 = Product::where('type_id','=', 4)->with('type_products')->orderBy('create_date', 'desc')->limit(1)->get();
-        return view('/'.$id, compact('all_typeProduct','featured_product', 'latest_product_of_type1','latest_product_of_type2','latest_product_of_type3','latest_product_of_type4'));
-
+        $all_typeProduct = Type_product::all();
+        $featured_product = Product::where('is_featured', '=', 1)->with('type_products')->get();
+        $latest_product_of_type1 = Product::where('type_id', '=', 1)->with('type_products')->orderBy('create_date', 'desc')->limit(1)->get();
+        $latest_product_of_type2 = Product::where('type_id', '=', 2)->with('type_products')->orderBy('create_date', 'desc')->limit(1)->get();
+        $latest_product_of_type3 = Product::where('type_id', '=', 3)->with('type_products')->orderBy('create_date', 'desc')->limit(1)->get();
+        $latest_product_of_type4 = Product::where('type_id', '=', 4)->with('type_products')->orderBy('create_date', 'desc')->limit(1)->get();
+        return view('/' . $id, compact('all_typeProduct', 'featured_product', 'latest_product_of_type1', 'latest_product_of_type2', 'latest_product_of_type3', 'latest_product_of_type4'));
     }
     public function home()
     {
@@ -38,19 +37,24 @@ class PageController extends Controller
         // $salads_product= Product::where('type_id','=', 3)->get();
         // $monAnKem_product= Product::where('type_id','=', 4)->get();
         // return view($id, compact('all_product', 'sashimi_product', 'sushi_product', 'salads_product','monAnKem_product'));
-        $all_typeProduct= Type_product::all();
-        $featured_product= Product::where('is_featured','=',1)->with('type_products')->get();
-        $latest_product_of_type1 = Product::where('type_id','=', 1)->with('type_products')->orderBy('create_date', 'desc')->limit(1)->get();
-        $latest_product_of_type2 = Product::where('type_id','=', 2)->with('type_products')->orderBy('create_date', 'desc')->limit(1)->get();
-        $latest_product_of_type3 = Product::where('type_id','=', 3)->with('type_products')->orderBy('create_date', 'desc')->limit(1)->get();
-        $latest_product_of_type4 = Product::where('type_id','=', 4)->with('type_products')->orderBy('create_date', 'desc')->limit(1)->get();
-        return view('index', compact('all_typeProduct','featured_product', 'latest_product_of_type1','latest_product_of_type2','latest_product_of_type3','latest_product_of_type4'));
+        $all_typeProduct = Type_product::all();
+        $featured_product = Product::where('is_featured', '=', 1)->with('type_products')->get();
+        $latest_product_of_type1 = Product::where('type_id', '=', 1)->with('type_products')->orderBy('create_date', 'desc')->limit(1)->get();
+        $latest_product_of_type2 = Product::where('type_id', '=', 2)->with('type_products')->orderBy('create_date', 'desc')->limit(1)->get();
+        $latest_product_of_type3 = Product::where('type_id', '=', 3)->with('type_products')->orderBy('create_date', 'desc')->limit(1)->get();
+        $latest_product_of_type4 = Product::where('type_id', '=', 4)->with('type_products')->orderBy('create_date', 'desc')->limit(1)->get();
+        return view('index', compact('all_typeProduct', 'featured_product', 'latest_product_of_type1', 'latest_product_of_type2', 'latest_product_of_type3', 'latest_product_of_type4'));
+    }
 
+    public function checkout(){
+        return view('checkout');
     }
-    public function showLogin(){
-return view('auth.login');
+
+    public function showLogin()
+    {
+        return view('auth.login');
     }
-   
+
 
     /**
      * Show the form for creating a new resource.

@@ -61,10 +61,10 @@ class CartController extends Controller
 
     public function showCart()
     {
-        $bill_by_userId = Bill_detail::where('user_id','=', Auth::user()->id)->orderBy('create_date', 'desc')->get();
+        // $bill_by_userId = Bill_detail::where('user_id','=', Auth::user()->id)->orderBy('create_date', 'desc')->get();
         $cart_priceTotal = Cart::priceTotal();
         $all_typeProduct= Type_product::all();
-        return view('shoping-cart', compact('cart_priceTotal','all_typeProduct','bill_by_userId'));
+        return view('shoping-cart', compact('cart_priceTotal','all_typeProduct'));
     }
     public function billSuccess()
     {

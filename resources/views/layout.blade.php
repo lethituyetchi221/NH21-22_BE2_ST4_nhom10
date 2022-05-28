@@ -1,5 +1,11 @@
 <?php use Illuminate\Support\Facades\Auth; ?>
-<?php $content = Cart::content(); ?>
+<?php $content = Cart::content();
+use App\Models\Order;
+use App\Models\Product;
+use App\Models\Wishlist;
+use Illuminate\Support\Facades\Session;
+
+?>
 
 <!DOCTYPE html>
 <html lang="zxx">
@@ -28,6 +34,7 @@
 </head>
 
 <body>
+    
     <!-- Page Preloder -->
     <div id="preloder">
         <div class="loader"></div>
@@ -41,10 +48,10 @@
         </div>
         <div class="humberger__menu__cart">
             <ul>
-                <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
+                <li><a href="{{ route('showWishlist') }}"><i class="fa fa-heart"></i> <span>1</span></a></li>
                 <li><a href="{{ route('showCart') }}"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
             </ul>
-            <div class="header__cart__price">item: <span>{{Cart::subtotal();}}</span></div>
+            <div class="header__cart__price">item: <span>{{ Cart::subtotal() }}</span></div>
         </div>
         <div class="humberger__menu__widget">
             <div class="header__top__right__language">
@@ -59,7 +66,8 @@
             <div class="header__top__right__auth">
                 @if (Auth::check())
                     {{-- <a href="{{route('logout')}}"><i class="fa fa-user"></i> Logout</a> --}}
-                    <a href="{{ route('showProfile') }}"><i class="fa fa-user"></i> {{ Auth::user()->name }}</a>
+                    <a href="{{ route('showProfile') }}"><i class="fa fa-user"></i>
+                        {{ Auth::user()->name }}</a>
                 @else
                     <a href="{{ route('showLogin') }}"><i class="fa fa-user"></i> Login</a>
                 @endif
@@ -102,6 +110,7 @@
     <header class="header">
         <div class="header__top">
             <div class="container">
+             
                 <div class="row">
                     <div class="col-lg-6 col-md-6">
                         <div class="header__top__left">
@@ -146,6 +155,19 @@
         </div>
         <div class="container">
             <div class="row">
+                   @if (Session::has('Error'))
+                   <div class="alert alert-danger alert-dismissible" style="position: fixed; right:20px;">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>Danger!</strong> {{ Session::get('Error') }}
+                </div>
+            @endif
+            
+            @if (Session::has('Success'))
+                <div class="alert alert-success alert-dismissible" style="position: fixed; right:20px;">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>Success!</strong> {{ Session::get('Success') }}
+                </div>
+            @endif
                 <div class="col-lg-3">
                     <div class="header__logo">
                         <a href="{{ url('/index') }}"><img src="{{ asset('img/logo.png') }}" alt=""></a>
@@ -178,11 +200,13 @@
                     <div class="header__cart">
                         <ul>
                             <?php $content = Cart::content(); ?>
-                            <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
+                            <li><a href="{{ route('showWishlist') }}"><i class="fa fa-heart"></i>
+                                    <span>1</span></a>
+                            </li>
                             <li><a href="{{ route('showCart') }}"><i class="fa fa-shopping-bag"></i>
                                     <span>{{ count($content) }}</span></a></li>
                         </ul>
-                        <div class="header__cart__price">item: <span>{{Cart::subtotal();}}</span></div>
+                        <div class="header__cart__price">item: <span>{{ Cart::subtotal() }}</span></div>
                     </div>
                 </div>
             </div>
@@ -241,9 +265,9 @@
         </div>
     </section>
     <!-- Hero Section End -->
-
+ 
     @yield('content')
-
+   
 
     <!-- Footer Section Begin -->
     <footer class="footer spad">
@@ -328,9 +352,23 @@
             alertify.success('Thêm thành công');
         };
 
-        function Checkout() {
-            alertify.success('Đặt hàng thành công');
-        };
+        // function AddWishlist(product_id) {
+
+        //     <?php
+        //     $wishlist = new Wishlist();
+        //     $wishlist->user_id = Auth::user()->id;
+        //     $wishlist->product_id =
+        ?> 
+
+        //      product_id; 
+        //     <?php
+        //     $wishlist->create_date = DATE(NOW());
+        //     $wishlist->save();
+        //
+        ?>
+        //     alertify.success(product_id);
+
+        // }
     </script>
     <!-- Js Plugins -->
     <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>

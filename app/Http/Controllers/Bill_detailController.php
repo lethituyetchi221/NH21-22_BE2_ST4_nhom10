@@ -19,6 +19,48 @@ class Bill_detailController extends Controller
     {
         //
     }
+    public function successBill($bill_id)
+    {
+        $bill_detail = Bill_detail::where('id', '=', $bill_id)->first();
+        $bill_detail->status = 3;
+        $bill_detail->save();
+
+        return redirect()->route('showBillDetail', ['bill_id' => $bill_id]);
+    }
+    public function editBill($bill_id, Request $request)
+    {
+        $bill_detail = Bill_detail::where('id', '=', $bill_id)->first();
+
+        $bill_detail->name  = $request->name;
+        $bill_detail->phone  = $request->phone;
+        $bill_detail->email  = $request->email;
+        $bill_detail->address  = $request->address;
+        $bill_detail->note  = $request->note;
+
+        $bill_detail->save();
+
+        return redirect()->route('showBillDetail', ['bill_id' => $bill_id]);
+    }
+    public function showEditBill($bill_id)
+    {
+
+        $bill_detail = Order::where('bill_detail_id', '=', $bill_id)->with('bill_details')->get();
+        $bill = Bill_detail::where('id', '=', $bill_id)->get();
+        return view('edit-bill', compact('bill_detail', 'bill'));
+    }
+    public function deleteBill($bill_id)
+    {
+        Bill_detail::where('id', '=', $bill_id)->delete();
+        Order::where('bill_detail_id','=',$bill_id)->delete();
+        return redirect()->route('showProfile');
+    }
+    public function showBillDetail($bill_id)
+    {
+        $bill_detail = Order::where('bill_detail_id', '=', $bill_id)->with('bill_details')->get();
+        $bill = Bill_detail::where('id', '=', $bill_id)->get();
+        return view('bill-detail', compact('bill_detail', 'bill'));
+    }
+
     public function addBill(Request $request)
     {
         $cart = Cart::content();
@@ -29,7 +71,7 @@ class Bill_detailController extends Controller
         $bill_detail->phone  = $request->phone;
         $bill_detail->email  = $request->email;
         $bill_detail->address  = $request->address;
-        // $bill_detail->total  = Cart::priceTotal();
+        $bill_detail->status  = 0;
         $bill_detail->note  = $request->note;
         $bill_detail->create_date  = DATE(NOW());
 
@@ -41,14 +83,14 @@ class Bill_detailController extends Controller
             $order = new Order();
             $order->product_id  = $item->id;
             $order->total  = $item->price * $item->qty;
-            $order->quanty  = $item->qty;
+            $order->qty  = $item->qty;
             $order->bill_detail_id = $bill_detail->id;
             $order->save();
-            $bill_detail->total+=$order->total;
+            $bill_detail->total += $order->total;
             $bill_detail->save();
         }
         Cart::destroy();
-        return redirect()->route('showCart');
+        return redirect()->route('showBillDetail', ['bill_id'=>$bill_detail->id])->with('Success','Đặt hàng thành công');
     }
     /**
      * Show the form for creating a new resource.

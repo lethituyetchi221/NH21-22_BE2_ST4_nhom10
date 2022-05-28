@@ -15,4 +15,8 @@ class Order extends Model
         //    return $this-> hasOne(Type_product::class, 'type_id');
          return $this->belongsTo(Bill_detail::class,'bill_detail_id','id');
        }
+      //  public   function type_products(){
+      //   //    return $this-> hasOne(Type_product::class, 'type_id');
+      //    return $this->belongsTo(Type_product::class,'type_id','id');
+      //  }
 }

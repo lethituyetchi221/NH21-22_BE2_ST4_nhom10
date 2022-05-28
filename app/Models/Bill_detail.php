@@ -12,6 +12,9 @@ class Bill_detail extends Model
 {
     use HasFactory;
     public function orders() {
-        return  $this->hasMany(Order::class,'id','bill_detail_id ');
+        return  $this->hasMany(Order::class,'id','bill_detail_id');
     }
+    // public function products() {
+    //     return  $this->hasMany(Product::class,'id','type_id');
+    // }
 }

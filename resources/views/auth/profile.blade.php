@@ -1,6 +1,33 @@
 @extends('layout')
 @section('content')
     <style>
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 1px dotted black;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+
+            /* Xác định vị trí tooltip */
+            position: absolute;
+            z-index: 1;
+            top: 100%;
+            left: 50%;
+            margin-left: -60px;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+        }
+
         body {
             /* background: -webkit-linear-gradient(left, #3931af, #00c6ff); */
         }
@@ -161,6 +188,10 @@
                                 <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
                                     aria-controls="home" aria-selected="true">About</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+                                    aria-controls="profile" aria-selected="false">Bill</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -194,6 +225,109 @@
                                     <p style="color: white">{{ Auth::user()->email }}</p>
                                 </div>
                             </div>
+                        </div>
+                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                            {{-- <div class="row">
+                                <div class="col-md-6">
+                                    <label>Experience</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>Expert</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Hourly Rate</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>10$/hr</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Total Projects</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>230</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>English Level</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>Expert</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Availability</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>6 months</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>Your Bio</label><br />
+                                    <p>Your detail description</p>
+                                </div>
+                            </div> --}}
+
+                            <div class="row">
+
+                                <div class="col-md-1">
+                                    <p style="color:white ; text-decoration-line:underline">Id</p>
+                                </div>
+                                <div class="col-md-3">
+                                    <label style="color:white ; text-decoration-line:underline">Total</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <p style="color:white ; text-decoration-line:underline">Create date</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <p style="color:white ; text-decoration-line:underline">Status</p>
+                                </div>
+                            </div>
+                            @foreach ($bill_by_userId as $item)
+                                <div class="row">
+                                    <div class="col-md-1">
+                                        <a href="{{ route('showBillDetail', ['bill_id' => $item->id]) }}"
+                                            style="color: white; ">
+                                            {{ $item->id }}
+                                        </a>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <a href="{{ route('showBillDetail', ['bill_id' => $item->id]) }}"
+                                            style="color: white; ">
+                                            {{ number_format($item->total) }}
+                                        </a>
+                                        {{-- <label style="color:white ; ">{{ number_format($item->total) }}</label> --}}
+                                    </div>
+                                    <div class="col-md-4">
+                                        <a href="{{ route('showBillDetail', ['bill_id' => $item->id]) }}"
+                                            style="color: white; ">
+                                            {{ $item->create_date }}
+                                        </a>
+                                        {{-- <label style="color:white ; ">{{ $item->create_date }}</label> --}}
+                                    </div>
+                                    <div class="col-md-4">
+                                        <a href="{{ route('showBillDetail', ['bill_id' => $item->id]) }}"
+                                            style="color: white; ">
+                                            <?php if ($item->status == 0) {
+                                                echo 'Chờ xác nhận';
+                                            } elseif ($item->status == 1) {
+                                                echo 'Đang giao hàng';
+                                            } elseif ($item->status == 2) {
+                                                echo 'Giao thành công';
+                                            } elseif ($item->status == 3) {
+                                                echo 'Đã nhận hàng';
+                                            }
+                                            ?>
+                                        </a>
+                                    </div>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
 
