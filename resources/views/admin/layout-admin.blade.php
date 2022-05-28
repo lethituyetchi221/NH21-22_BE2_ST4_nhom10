@@ -111,8 +111,8 @@ use App\Models\Order;
                         <a class="collapse-item" href="{{ route('showProtype') }}">Protypes</a>
                         <a class="collapse-item" href="{{ route('showBill') }}">Bills</a>
                         <a class="collapse-item" href="{{ route('showOrder') }}">Orders</a>
-                        <a class="collapse-item" href="{{ route('admin.user') }}">Users</a>
-                        {{-- <a class="collapse-item" href="{{route('')}}">Wishlists</a> --}}
+                        <a class="collapse-item" href="{{ route('showUser') }}">Users</a>
+                        <a class="collapse-item" href="{{route('showWishlist')}}">Wishlists</a>
                         {{-- <a class="collapse-item" href="{{route('')}}">Reviews</a> --}}
                     </div>
                 </div>

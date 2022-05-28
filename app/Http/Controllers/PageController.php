@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Selling;
 use App\Models\Type_product;
 
 class PageController extends Controller
@@ -15,38 +16,27 @@ class PageController extends Controller
      */
     public function index($id)
     {
-        // $all_product= Product::all();
-        // $sashimi_product= Product::where('type_id','=', 1)->get();
-        // $sushi_product= Product::where('type_id','=', 2)->get();
-        // $salads_product= Product::where('type_id','=', 3)->get();
-        // $monAnKem_product= Product::where('type_id','=', 4)->get();
-        // return view($id, compact('all_product', 'sashimi_product', 'sushi_product', 'salads_product','monAnKem_product'));
+        $latest_product_first = Product::orderBy('create_date', 'desc')->limit(3)->get();
+        $latest_product_last = Product::orderBy('create_date', 'desc')->offset(4)->limit(3)->get();
+        $sell_first= Selling::orderBy('quanty','desc')->limit(3)->get();
+        $sell_last= Selling::orderBy('quanty','desc')->offset(4)->limit(3)->get();
         $all_typeProduct = Type_product::all();
-        $featured_product = Product::where('is_featured', '=', 1)->with('type_products')->get();
-        $latest_product_of_type1 = Product::where('type_id', '=', 1)->with('type_products')->orderBy('create_date', 'desc')->limit(1)->get();
-        $latest_product_of_type2 = Product::where('type_id', '=', 2)->with('type_products')->orderBy('create_date', 'desc')->limit(1)->get();
-        $latest_product_of_type3 = Product::where('type_id', '=', 3)->with('type_products')->orderBy('create_date', 'desc')->limit(1)->get();
-        $latest_product_of_type4 = Product::where('type_id', '=', 4)->with('type_products')->orderBy('create_date', 'desc')->limit(1)->get();
-        return view('/' . $id, compact('all_typeProduct', 'featured_product', 'latest_product_of_type1', 'latest_product_of_type2', 'latest_product_of_type3', 'latest_product_of_type4'));
+
+        return view('/' . $id, compact('all_typeProduct','latest_product_first','latest_product_last','sell_first','sell_last'));
     }
     public function home()
     {
-        // $all_product= Product::all();
-        // $sashimi_product= Product::where('type_id','=', 1)->get();
-        // $sushi_product= Product::where('type_id','=', 2)->get();
-        // $salads_product= Product::where('type_id','=', 3)->get();
-        // $monAnKem_product= Product::where('type_id','=', 4)->get();
-        // return view($id, compact('all_product', 'sashimi_product', 'sushi_product', 'salads_product','monAnKem_product'));
+        $latest_product_first = Product::orderBy('create_date', 'desc')->limit(3)->get();
+        $latest_product_last = Product::orderBy('create_date', 'desc')->offset(4)->limit(3)->get();
+        $sell_first= Selling::orderBy('quanty','desc')->limit(3)->get();
+        $sell_last= Selling::orderBy('quanty','desc')->offset(4)->limit(3)->get();
         $all_typeProduct = Type_product::all();
-        $featured_product = Product::where('is_featured', '=', 1)->with('type_products')->get();
-        $latest_product_of_type1 = Product::where('type_id', '=', 1)->with('type_products')->orderBy('create_date', 'desc')->limit(1)->get();
-        $latest_product_of_type2 = Product::where('type_id', '=', 2)->with('type_products')->orderBy('create_date', 'desc')->limit(1)->get();
-        $latest_product_of_type3 = Product::where('type_id', '=', 3)->with('type_products')->orderBy('create_date', 'desc')->limit(1)->get();
-        $latest_product_of_type4 = Product::where('type_id', '=', 4)->with('type_products')->orderBy('create_date', 'desc')->limit(1)->get();
-        return view('index', compact('all_typeProduct', 'featured_product', 'latest_product_of_type1', 'latest_product_of_type2', 'latest_product_of_type3', 'latest_product_of_type4'));
+
+        return view('index', compact('all_typeProduct','latest_product_first','latest_product_last','sell_first','sell_last'));
     }
 
-    public function checkout(){
+    public function checkout()
+    {
         return view('checkout');
     }
 

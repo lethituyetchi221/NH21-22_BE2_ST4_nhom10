@@ -20,7 +20,6 @@ class CreateReviewsTable extends Migration
             $table->integer('product_id');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->text('comment');   
-            $table->date('create_date');
             $table->timestamps();
         });
     }

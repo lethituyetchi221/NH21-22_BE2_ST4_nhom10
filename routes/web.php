@@ -10,10 +10,11 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Bill_detailController;
 use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\ReviewController;
 use App\Models\Bill_detail;
 
 use App\Http\Controllers\Admin\AdminController;
-
+use App\Models\Review;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +40,7 @@ Route::get('/logout', [UserController::class, 'logout'])->name('logout');
 Route::get('/auth.profile', [UserController::class, 'showProfile'])->name('showProfile');
 Route::get('/auth.edit-profile', [UserController::class, 'showEditProfile'])->name('showEditProfile');
 Route::post('/updateProfile', [UserController::class, 'updateProfile'])->name('updateProfile');
+Route::post('/changePassword', [UserController::class, 'changePassword'])->name('changePassword');
 
 
 Route::post('/addCart/{id}', [CartController::class, 'addCartPost'])->name('addCartPost');
@@ -56,7 +58,7 @@ Route::post('/editBill/{bill_id}', [Bill_detailController::class, 'editBill'])->
 Route::get('/successBill/{bill_id}', [Bill_detailController::class, 'successBill'])->name('successBill');
 
 Route::get('/showWishlist', [WishlistController::class, 'showWishlist'])->name('showWishlist')->middleware('auth');
-Route::get('/addWishlist/{id}', [WishlistController::class, 'addWishlist'])->name('addWishlist');
+Route::get('/addWishlist/{id}', [WishlistController::class, 'addWishlist'])->name('addWishlist')->middleware('auth');
 
 //admin
 Route::get('/item/{id}', [AdminController::class, 'item'])->name('item');
@@ -64,7 +66,8 @@ Route::get('/showProduct', [AdminController::class, 'showProduct'])->name('showP
 Route::get('/showProtype', [AdminController::class, 'showProtype'])->name('showProtype');
 Route::get('/showBill', [AdminController::class, 'showBill'])->name('showBill');
 Route::get('/showOrder', [AdminController::class, 'showOrder'])->name('showOrder');
-Route::get('/admin.user', [AdminController::class, 'showUser'])->name('admin.user');
+Route::get('/showUser', [AdminController::class, 'showUser'])->name('showUser');
+Route::get('/showWishlist', [AdminController::class, 'showWishlist'])->name('showWishlist');
 
 
 //product
@@ -91,10 +94,12 @@ Route::get('/deleteBill_admin/{id}', [AdminController::class, 'deleteBill_admin'
 Route::get('/deleteUser/{id}', [AdminController::class, 'deleteUser'])->name('deleteUser');
 Route::post('/addUser', [AdminController::class, 'addUser'])->name('addUser');
 
+//comment
+Route::post('/addComment/{id}', [ReviewController::class, 'addComment'])->name('addComment');
 
 
 Route::get('/{id}', [PageController::class, 'index'])->name('index');
-Route::get('/admin/{id}', [AdminController::class, 'index'])->name('index')->middleware('auth')->middleware('checkAdmin');
+Route::get('/admin/{id}', [AdminController::class, 'index'])->name('admin')->middleware('auth')->middleware('checkAdmin');
 // Route::get('/admin/index', [AdminController::class, 'showAdminIndex'])->name('showAdminIndex')->middleware('auth')->middleware('checkAdmin');
 
 

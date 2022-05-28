@@ -118,28 +118,54 @@
                         </ul>
 
                         <div class="row">
-                            @if($bill[0]->status == 0)
-                            <div class="col-lg-6">
-                                <a href="{{ route('showEditBill', ['bill_id' => $bill[0]->id]) }}"
-                                    class="primary-btn">Sửa thông tin</a>
-                            </div>
-                            <div class="col-lg-6">
-                                <a href="{{ route('deleteBill', ['bill_id' => $bill[0]->id]) }}"
-                                    class="primary-btn">Hủy đơn hàng</a>
-                            </div>
+                            @if ($bill[0]->status == 0)
+                                <div class="col-lg-6">
+                                    <a href="{{ route('showEditBill', ['bill_id' => $bill[0]->id]) }}"
+                                        class="primary-btn">Sửa thông tin</a>
+                                </div>
+                                <div class="col-lg-6">
+                                    <a data-toggle="modal" data-target="#exampleModal" href="" class="primary-btn">Hủy
+                                        đơn hàng</a>
+                                    <!-- Button trigger modal -->
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Already delete?</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                {{-- <div class="modal-body">
+                                                    ...
+                                                </div> --}}
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Cancel</button>
+                                                    <a href="{{ route('deleteBill', ['bill_id' => $bill[0]->id]) }}"><button
+                                                            type="button" class="btn btn-primary">Delete</button></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             @elseif($bill[0]->status == 1)
-                            <div class="col-lg-12">
-                                <label class="primary-btn" for="">Đang giao hàng</label>
-                            </div>
+                                <div class="col-lg-12">
+                                    <label class="primary-btn" for="">Đang giao hàng</label>
+                                </div>
                             @elseif($bill[0]->status == 2)
-                            <div class="col-lg-12">
-                                <a href="{{ route('successBill', ['bill_id' => $bill[0]->id]) }}"
-                                    class="primary-btn">Đã nhận hàng</a>
-                            </div>
+                                <div class="col-lg-12">
+                                    <a href="{{ route('successBill', ['bill_id' => $bill[0]->id]) }}"
+                                        class="primary-btn">Đã nhận hàng</a>
+                                </div>
                             @elseif($bill[0]->status == 3)
-                            <div class="col-lg-12">
-                                <label class="primary-btn" for="">Giao hàng thành công</label>
-                            </div>
+                                <div class="col-lg-12">
+                                    <label class="primary-btn" for="">Giao hàng thành công</label>
+                                </div>
                             @endif
                         </div>
 

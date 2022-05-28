@@ -15,17 +15,23 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function changePassword(Request $request)
     {
-        //
+        if ($request->password == $request->confirmPassword) {
+            $user =  Auth::user();
+            $user->password = bcrypt($request->password);
+            $user->save();
+            return redirect()->back()->with('Success', 'Đổi mật khẩu thành công');
+        } else {
+            return redirect()->back()->with('Error', 'Mật khẩu không khớp');
+        }
     }
     public function updateProfile(Request $request)
     {
         $user =  Auth::user();
         $user->name = $request->name;
-        $user->email = $request->email;
         $user->save();
-        return redirect()->route('showProfile');
+        return redirect()->route('showProfile')->with('Success', 'Cập nhật thành công');
     }
     public function showEditProfile()
     {
@@ -75,10 +81,10 @@ class UserController extends Controller
             if (Auth::user()->role == 0) {
                 return redirect()->route('home');
             } else {
-                return redirect()->route('showAdminIndex');
+                return redirect()->route('admin', ['id' => 'index']);
             }
         } else {
-            return redirect()->route('login');
+            return redirect()->back()->with('Error','Tài khoản mật khẩu không chính xác');
         }
     }
 

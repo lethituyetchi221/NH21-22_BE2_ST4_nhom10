@@ -18,9 +18,12 @@ use Illuminate\Support\Facades\Session;
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Ogani | Template</title>
 
+
+
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
 
     <!-- Css Styles -->
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" type="text/css">
@@ -34,7 +37,7 @@ use Illuminate\Support\Facades\Session;
 </head>
 
 <body>
-    
+
     <!-- Page Preloder -->
     <div id="preloder">
         <div class="loader"></div>
@@ -110,7 +113,7 @@ use Illuminate\Support\Facades\Session;
     <header class="header">
         <div class="header__top">
             <div class="container">
-             
+
                 <div class="row">
                     <div class="col-lg-6 col-md-6">
                         <div class="header__top__left">
@@ -155,19 +158,19 @@ use Illuminate\Support\Facades\Session;
         </div>
         <div class="container">
             <div class="row">
-                   @if (Session::has('Error'))
-                   <div class="alert alert-danger alert-dismissible" style="position: fixed; right:20px;">
-                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                    <strong>Danger!</strong> {{ Session::get('Error') }}
-                </div>
-            @endif
-            
-            @if (Session::has('Success'))
-                <div class="alert alert-success alert-dismissible" style="position: fixed; right:20px;">
-                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                    <strong>Success!</strong> {{ Session::get('Success') }}
-                </div>
-            @endif
+                @if (Session::has('Error'))
+                    <div class="alert alert-danger alert-dismissible" style="position: fixed; right:20px;">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <strong>Danger!</strong> {{ Session::get('Error') }}
+                    </div>
+                @endif
+
+                @if (Session::has('Success'))
+                    <div class="alert alert-success alert-dismissible" style="position: fixed; right:20px;">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <strong>Success!</strong> {{ Session::get('Success') }}
+                    </div>
+                @endif
                 <div class="col-lg-3">
                     <div class="header__logo">
                         <a href="{{ url('/index') }}"><img src="{{ asset('img/logo.png') }}" alt=""></a>
@@ -265,9 +268,9 @@ use Illuminate\Support\Facades\Session;
         </div>
     </section>
     <!-- Hero Section End -->
- 
+
     @yield('content')
-   
+
 
     <!-- Footer Section Begin -->
     <footer class="footer spad">
@@ -395,6 +398,8 @@ use Illuminate\Support\Facades\Session;
 
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
 
 
 </body>

@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Type_product;
+use App\Models\Review;
+use App\Models\Bill_detail;
+use App\Models\Order;
+use Illuminate\Support\Facades\Auth;
+
 
 class DetailProductController extends Controller
 {
@@ -15,12 +20,26 @@ class DetailProductController extends Controller
      */
     public function index($product_id)
     {
-        $all_typeProduct= Type_product::all();
-        $detailProduct= Product::where('id','=', $product_id)->get();
-        $relatedProduct= Product::where('is_featured','=',1)->limit(4)->with('type_products')->get();
-        return view('/shop-details', compact('detailProduct','relatedProduct','all_typeProduct'));  
+        $checkBought=0;
+        if (Auth::check()) {
+            $order = Order::where('product_id', $product_id)->get();
+            $bill= Bill_detail::where('user_id',Auth::user()->id)->where('status',2)->orWhere('status',3)->get();
+            foreach($order as $item){
+                foreach($bill as $itemTemp){
+                    if($item->bill_detail_id==$itemTemp->id){
+                        $checkBought+=1;
+                    }
+                }
+            }
+        }
+
+        $all_typeProduct = Type_product::all();
+        $detailProduct = Product::where('id', '=', $product_id)->get();
+        $relatedProduct = Product::where('is_featured', '=', 1)->limit(4)->with('type_products')->get();
+        $reviewProduct = Review::where('product_id', $product_id)->orderBy('created_at', 'desc')->get();
+        return view('/shop-details', compact('detailProduct', 'relatedProduct', 'all_typeProduct', 'reviewProduct','checkBought'));
     }
-   
+
 
     /**
      * Show the form for creating a new resource.

@@ -3,13 +3,28 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Bill_detail;
-use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
-use Cart;
+use App\Models\User;
+use App\Models\Review;
+use Illuminate\Support\Facades\Date;
 
-class OrderController extends Controller
+class ReviewController extends Controller
 {
+
+
+
+    public function addComment($id, Request $request)
+    {
+        $comment = new Review();
+        $comment->product_id = $id;
+        $comment->comment = $request->comment;
+        $comment->user_id = Auth::user()->id;
+        $comment->save();
+
+        return redirect()->back()->with('Success', 'Đánh giá thành công');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -17,32 +32,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-       // var_dump('123');die();
-    }
-
-    // public function addOrder()
-    // {
-    //     $cart = Cart::content();
-
-    //     $bill_detail = new Bill_detail();
-    //     $bill_detail->user_id  = Auth::user()->id;
-    //     $bill_detail->save();
-
-    //     foreach ($cart as $item) {
-    //         $order = new Order();
-    //         $order->product_id  = $item->id;
-    //         $order->total  = $item->price * $item->qty;
-    //         $order->quanty  = $item->qty;
-    //         $order->product_id  = $item->id;
-    //         $order->bill_detail_id = $bill_detail->id;
-    //         $order->save();
-    //     }
-    //     return redirect()->route('addBill', compact('bill_detail','order'));
-
-       
-    // }
-    public function showOrder()
-    {
+        //
     }
 
     /**

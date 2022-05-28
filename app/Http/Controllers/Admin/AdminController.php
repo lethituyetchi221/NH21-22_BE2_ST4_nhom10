@@ -9,6 +9,8 @@ use App\Models\Type_product;
 use App\Models\Bill_detail;
 use App\Models\Order;
 use App\Models\User;
+use App\Models\Wishlist;
+use App\Models\Selling;
 use PhpParser\Node\Stmt\Else_;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,6 +22,12 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function showWishlist()
+    {
+        $all_wishlist = Wishlist::orderBy('created_at', 'desc')->paginate(9);
+        $all_typeProduct = Type_product::all();
+        return view('admin.wishlist', compact('all_typeProduct', 'all_wishlist'));
+    }
     public function addUser(Request $request)
     {
         if (count(User::where('email', '=', $request->email)->get()) == 0) {
@@ -74,7 +82,15 @@ class AdminController extends Controller
         $bill = Bill_detail::where('id', '=', $id)->first();
         if ($bill->status == 0) {
             $bill = Bill_detail::where('id', '=', $id)->delete();
-            $order = Order::where('bill_detail_id', '=', $id)->delete();
+            // $order = Order::where('bill_detail_id', '=', $id)->delete();
+            $order =  Order::where('bill_detail_id', '=', $$id)->get();
+            foreach ($order as $item) {
+                $sell = Selling::where('product_id', $item->product_id)->first();
+                $sell->quanty -= $item->qty;
+                $sell->save();
+            }
+            Order::where('bill_detail_id', '=', $bill_id)->delete();
+
             return  redirect()->back()->with('Success', 'Xóa đơn hàng thành công');
         } else {
             return  redirect()->back()->with('Error', 'Không thể xóa đơn hàng');

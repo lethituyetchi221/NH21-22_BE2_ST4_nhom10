@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Bill_detail;
 use App\Models\Order;
+use App\Models\Selling;
 use Illuminate\Support\Facades\Auth;
 use Cart;
 
@@ -51,8 +52,15 @@ class Bill_detailController extends Controller
     public function deleteBill($bill_id)
     {
         Bill_detail::where('id', '=', $bill_id)->delete();
-        Order::where('bill_detail_id','=',$bill_id)->delete();
-        return redirect()->route('showProfile');
+        $order =  Order::where('bill_detail_id', '=', $bill_id)->get();
+        foreach ($order as $item) {
+            $sell = Selling::where('product_id', $item->product_id)->first();
+            $sell->quanty -= $item->qty;
+            $sell->save();
+        }
+        Order::where('bill_detail_id', '=', $bill_id)->delete();
+
+        return redirect()->route('showProfile')->with('Success', 'Hủy đơn hàng thành công');
     }
     public function showBillDetail($bill_id)
     {
@@ -63,6 +71,7 @@ class Bill_detailController extends Controller
 
     public function addBill(Request $request)
     {
+
         $cart = Cart::content();
 
         $bill_detail = new Bill_detail();
@@ -80,6 +89,16 @@ class Bill_detailController extends Controller
         $bill_detail->save();
 
         foreach ($cart as $item) {
+            if (count(Selling::where('product_id', $item->id)->get()) == 0) {
+                $sell = new Selling();
+                $sell->product_id = $item->id;
+                $sell->quanty = $item->qty;
+                $sell->save();
+            } else {
+                $sell = Selling::where('product_id', $item->id)->first();
+                $sell->quanty += $item->qty;
+                $sell->save();
+            }
             $order = new Order();
             $order->product_id  = $item->id;
             $order->total  = $item->price * $item->qty;
@@ -90,7 +109,7 @@ class Bill_detailController extends Controller
             $bill_detail->save();
         }
         Cart::destroy();
-        return redirect()->route('showBillDetail', ['bill_id'=>$bill_detail->id])->with('Success','Đặt hàng thành công');
+        return redirect()->route('showBillDetail', ['bill_id' => $bill_detail->id])->with('Success', 'Đặt hàng thành công');
     }
     /**
      * Show the form for creating a new resource.

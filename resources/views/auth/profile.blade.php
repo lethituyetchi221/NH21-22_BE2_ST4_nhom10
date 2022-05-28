@@ -165,69 +165,109 @@
     <!------ Include the above in your HEAD tag ---------->
 
     <div class="container emp-profile">
-        <form class="bgForm" action="{{ route('showEditProfile') }}">
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="profile-img">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS52y5aInsxSm31CvHOFHWujqUx_wWTS9iM6s7BAm21oEN_RiGoog"
-                            alt="" />
-                        <div class="file btn btn-lg btn-primary">
-                            Change Photo
-                            <input type="file" name="file" />
-                        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="profile-img">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS52y5aInsxSm31CvHOFHWujqUx_wWTS9iM6s7BAm21oEN_RiGoog"
+                        alt="" />
+                    <div class="file btn btn-lg btn-primary">
+                        Change Photo
+                        <input type="file" name="file" />
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="profile-head">
-                        <h2 style="color: white">
-                            {{ Auth::user()->name }}
-                        </h2>
-                        <p class="proile-rating"><span></span></p>
-                        <ul class="nav nav-tabs" id="myTab" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
-                                    aria-controls="home" aria-selected="true">About</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
-                                    aria-controls="profile" aria-selected="false">Bill</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile" />
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="profile-work">
-                    </div>
+
+            <div class="col-md-6">
+                <div class="profile-head">
+                    <h2 style="color: white">
+                        {{ Auth::user()->name }}
+                    </h2>
+                    <p class="proile-rating"><span></span></p>
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                                aria-controls="home" aria-selected="true">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+                                aria-controls="profile" aria-selected="false">Bill</a>
+                        </li>
+                    </ul>
                 </div>
-                <div class="col-md-6">
-                    <div class="tab-content profile-tab" id="myTabContent">
-                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                            <div class="row">
+            </div>
+            <div class="col-md-2">
+                <a href="{{ route('showEditProfile') }}"> <button class="logout_btn" name="btnAddMore"> Edit
+                        Profile</button></a>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <form action="{{ route('changePassword') }}" method="post">
+                        @csrf
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalCenterTitle">Enter password</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label style="color: white">Name</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <p style="color: white"> {{ Auth::user()->name }}</p>
-                                </div>
+                            <div class="modal-body">
+                                <input name="password" type="password" class="form-control" id="exampleInputPassword1"
+                                    placeholder="Password" style="margin-bottom: 10px" required>
+                                <input name="confirmPassword" type="password" class="form-control"
+                                    id="exampleInputPassword1" placeholder="Confirm password" required>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label style="color: white">Email</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <p style="color: white">{{ Auth::user()->email }}</p>
-                                </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save change</button>
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                            {{-- <div class="row">
+                    </form>
+
+
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="profile-work text-center">
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                        Change password
+                    </button>
+
+
+
+                </div>
+
+            </div>
+            <div class="col-md-6">
+                <div class="tab-content profile-tab" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <div class="row">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label style="color: white">Name</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p style="color: white"> {{ Auth::user()->name }}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label style="color: white">Email</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p style="color: white">{{ Auth::user()->email }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                        {{-- <div class="row">
                                 <div class="col-md-6">
                                     <label>Experience</label>
                                 </div>
@@ -274,66 +314,65 @@
                                 </div>
                             </div> --}}
 
-                            <div class="row">
+                        <div class="row">
 
+                            <div class="col-md-1">
+                                <p style="color:white ; text-decoration-line:underline">Id</p>
+                            </div>
+                            <div class="col-md-3">
+                                <label style="color:white ; text-decoration-line:underline">Total</label>
+                            </div>
+                            <div class="col-md-4">
+                                <p style="color:white ; text-decoration-line:underline">Create date</p>
+                            </div>
+                            <div class="col-md-4">
+                                <p style="color:white ; text-decoration-line:underline">Status</p>
+                            </div>
+                        </div>
+                        @foreach ($bill_by_userId as $item)
+                            <div class="row">
                                 <div class="col-md-1">
-                                    <p style="color:white ; text-decoration-line:underline">Id</p>
+                                    <a href="{{ route('showBillDetail', ['bill_id' => $item->id]) }}"
+                                        style="color: white; ">
+                                        {{ $item->id }}
+                                    </a>
                                 </div>
                                 <div class="col-md-3">
-                                    <label style="color:white ; text-decoration-line:underline">Total</label>
+                                    <a href="{{ route('showBillDetail', ['bill_id' => $item->id]) }}"
+                                        style="color: white; ">
+                                        {{ number_format($item->total) }}
+                                    </a>
+                                    {{-- <label style="color:white ; ">{{ number_format($item->total) }}</label> --}}
                                 </div>
                                 <div class="col-md-4">
-                                    <p style="color:white ; text-decoration-line:underline">Create date</p>
+                                    <a href="{{ route('showBillDetail', ['bill_id' => $item->id]) }}"
+                                        style="color: white; ">
+                                        {{ $item->create_date }}
+                                    </a>
+                                    {{-- <label style="color:white ; ">{{ $item->create_date }}</label> --}}
                                 </div>
                                 <div class="col-md-4">
-                                    <p style="color:white ; text-decoration-line:underline">Status</p>
+                                    <a href="{{ route('showBillDetail', ['bill_id' => $item->id]) }}"
+                                        style="color: white; ">
+                                        <?php if ($item->status == 0) {
+                                            echo 'Chờ xác nhận';
+                                        } elseif ($item->status == 1) {
+                                            echo 'Đang giao hàng';
+                                        } elseif ($item->status == 2) {
+                                            echo 'Giao thành công';
+                                        } elseif ($item->status == 3) {
+                                            echo 'Đã nhận hàng';
+                                        }
+                                        ?>
+                                    </a>
                                 </div>
                             </div>
-                            @foreach ($bill_by_userId as $item)
-                                <div class="row">
-                                    <div class="col-md-1">
-                                        <a href="{{ route('showBillDetail', ['bill_id' => $item->id]) }}"
-                                            style="color: white; ">
-                                            {{ $item->id }}
-                                        </a>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <a href="{{ route('showBillDetail', ['bill_id' => $item->id]) }}"
-                                            style="color: white; ">
-                                            {{ number_format($item->total) }}
-                                        </a>
-                                        {{-- <label style="color:white ; ">{{ number_format($item->total) }}</label> --}}
-                                    </div>
-                                    <div class="col-md-4">
-                                        <a href="{{ route('showBillDetail', ['bill_id' => $item->id]) }}"
-                                            style="color: white; ">
-                                            {{ $item->create_date }}
-                                        </a>
-                                        {{-- <label style="color:white ; ">{{ $item->create_date }}</label> --}}
-                                    </div>
-                                    <div class="col-md-4">
-                                        <a href="{{ route('showBillDetail', ['bill_id' => $item->id]) }}"
-                                            style="color: white; ">
-                                            <?php if ($item->status == 0) {
-                                                echo 'Chờ xác nhận';
-                                            } elseif ($item->status == 1) {
-                                                echo 'Đang giao hàng';
-                                            } elseif ($item->status == 2) {
-                                                echo 'Giao thành công';
-                                            } elseif ($item->status == 3) {
-                                                echo 'Đã nhận hàng';
-                                            }
-                                            ?>
-                                        </a>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
+                        @endforeach
                     </div>
-
                 </div>
+
             </div>
-        </form>
+        </div>
         <div class="row">
             <div class="col-md-10">
             </div>

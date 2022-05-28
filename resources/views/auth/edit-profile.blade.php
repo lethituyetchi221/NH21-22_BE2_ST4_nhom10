@@ -190,15 +190,6 @@
                                   
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label style="color: white">Email</label>
-
-                                </div>
-                                <div class="col-md-6">
-                                    <input type="text" style="background: black; color: white; width:inherit;" name="email" value=" {{ Auth::user()->email }}">
-                                </div>
-                            </div>
                         </div>
                     </div>
 
