@@ -22,7 +22,7 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function showWishlist()
+    public function showWishlistAdmin()
     {
         $all_wishlist = Wishlist::orderBy('created_at', 'desc')->paginate(9);
         $all_typeProduct = Type_product::all();

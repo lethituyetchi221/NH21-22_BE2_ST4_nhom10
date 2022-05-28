@@ -67,7 +67,7 @@ Route::get('/showProtype', [AdminController::class, 'showProtype'])->name('showP
 Route::get('/showBill', [AdminController::class, 'showBill'])->name('showBill');
 Route::get('/showOrder', [AdminController::class, 'showOrder'])->name('showOrder');
 Route::get('/showUser', [AdminController::class, 'showUser'])->name('showUser');
-Route::get('/showWishlist', [AdminController::class, 'showWishlist'])->name('showWishlist');
+Route::get('/showWishlistAdmin', [AdminController::class, 'showWishlistAdmin'])->name('showWishlistAdmin');
 
 
 //product

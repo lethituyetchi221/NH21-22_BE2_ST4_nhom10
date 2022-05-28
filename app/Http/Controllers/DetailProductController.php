@@ -23,7 +23,7 @@ class DetailProductController extends Controller
         $checkBought=0;
         if (Auth::check()) {
             $order = Order::where('product_id', $product_id)->get();
-            $bill= Bill_detail::where('user_id',Auth::user()->id)->where('status',2)->orWhere('status',3)->get();
+            $bill= Bill_detail::where('user_id',Auth::user()->id)->whereIn('status',[2,3])->get();
             foreach($order as $item){
                 foreach($bill as $itemTemp){
                     if($item->bill_detail_id==$itemTemp->id){
