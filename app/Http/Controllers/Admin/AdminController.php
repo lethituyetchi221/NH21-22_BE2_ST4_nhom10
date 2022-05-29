@@ -97,13 +97,13 @@ class AdminController extends Controller
         if ($bill->status == 0) {
             $bill = Bill_detail::where('id', '=', $id)->delete();
             // $order = Order::where('bill_detail_id', '=', $id)->delete();
-            $order =  Order::where('bill_detail_id', '=', $$id)->get();
+            $order =  Order::where('bill_detail_id', '=', $id)->get();
             foreach ($order as $item) {
                 $sell = Selling::where('product_id', $item->product_id)->first();
                 $sell->quanty -= $item->qty;
                 $sell->save();
             }
-            Order::where('bill_detail_id', '=', $bill_id)->delete();
+            Order::where('bill_detail_id', '=', $id)->delete();
 
             return  redirect()->back()->with('Success', 'Xóa đơn hàng thành công');
         } else {
