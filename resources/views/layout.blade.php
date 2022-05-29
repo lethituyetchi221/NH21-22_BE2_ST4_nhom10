@@ -203,8 +203,8 @@ use Illuminate\Support\Facades\Session;
                     <div class="header__cart">
                         <ul>
                             <?php $content = Cart::content(); ?>
-                            <li><a href="{{ route('showWishlist') }}"><i class="fa fa-heart"></i>
-                                    <span>1</span></a>
+                            <li><a href="{{ url('/wishlist') }}"><i class="fa fa-heart"></i>
+                                    <span></span></a>
                             </li>
                             <li><a href="{{ route('showCart') }}"><i class="fa fa-shopping-bag"></i>
                                     <span>{{ count($content) }}</span></a></li>

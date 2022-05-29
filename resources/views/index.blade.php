@@ -1,5 +1,7 @@
 <?php
 use App\Models\Product;
+use App\Models\Review;
+use App\Models\Wishlist;
 
 ?>
 @extends('layout')
@@ -55,7 +57,7 @@ use App\Models\Product;
                             <li data-filter=".salads" >Salads</li>
                             <li data-filter=".monAnKem" >Món ăn kèm</li> --}}
                             @foreach ($all_typeProduct as $item)
-                                <li data-filter=".{{ 'item'.$item->id }}">{{ $item->type_name }}</li>
+                                <li data-filter=".{{ 'item' . $item->id }}">{{ $item->type_name }}</li>
                             @endforeach
                         </ul>
                     </div>
@@ -63,26 +65,30 @@ use App\Models\Product;
             </div>
             <div class="row featured__filter">
                 @foreach ($all_typeProduct as $item)
-                <?php $product= Product::where('type_id',$item->id)->where('is_featured',1)->get() ?>
+                    <?php $product = Product::where('type_id', $item->id)
+                        ->where('is_featured', 1)
+                        ->get(); ?>
                     @foreach ($product as $value)
-                            <div class="col-lg-3 col-md-4 col-sm-6 mix {{'item'.$item->id}} ">
-                                <div class="featured__item">
-                                    <div class="featured__item__pic set-bg" data-setbg="img/product/{{ $value->image }}">
-                                        <ul class="featured__item__pic__hover">
-                                            <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="featured__item__text">
-                                        {{-- <h6><a href="shop-details/{{$item->id}}">{{$item->product_name}}</a></h6> --}}
-                                        <h6><a
-                                                href="{{ route('shop-details', ['id' => $value->id]) }}">{{ $value->product_name }}</a>
-                                        </h6>
-                                        <h5>{{ number_format($value->price) . ' VND' }}</h5>
-                                    </div>
+                        <div class="col-lg-3 col-md-4 col-sm-6 mix {{ 'item' . $item->id }} ">
+                            <div class="featured__item">
+                                <div class="featured__item__pic set-bg" data-setbg="img/product/{{ $value->image }}">
+                                    <ul class="featured__item__pic__hover">
+                                        <li><a href="{{route('addWishlist',['id'=>$value->id])}}"><i class="fa fa-heart" <?php if (Auth::check() && count(Wishlist::where('user_id',Auth::user()->id)->where('product_id',$value->id)->get())) {
+                                            echo 'style="color: red"';
+                                        } ?>></i></a></li>
+                                        <li><a href="#"><i class="fa fa-retweet"></i></a></li>
+                                        <li><a href="{{ route('addCartGet', ['id' => $value->id]) }}"><i class="fa fa-shopping-cart"></i></a></li>
+                                    </ul>
+                                </div>
+                                <div class="featured__item__text">
+                                    {{-- <h6><a href="shop-details/{{$item->id}}">{{$item->product_name}}</a></h6> --}}
+                                    <h6><a
+                                            href="{{ route('shop-details', ['id' => $value->id]) }}">{{ $value->product_name }}</a>
+                                    </h6>
+                                    <h5>{{ number_format($value->price) . ' VND' }}</h5>
                                 </div>
                             </div>
+                        </div>
                     @endforeach
                 @endforeach
             </div>
@@ -93,17 +99,18 @@ use App\Models\Product;
     <!-- Banner Begin -->
     <div class="banner">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-6">
+            <div class="row justify-content-center">
+                {{-- <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="banner__pic">
-                        <img src="img/banner/banner-1.jpg" alt="">
+                        <img style="width: 100%; height: 100%;" src="{{asset('img/bannerLeft.jpg')}}" alt="">
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="banner__pic">
                         <img src="img/banner/banner-2.jpg" alt="">
                     </div>
-                </div>
+                </div> --}}
+                <img style="height:550px;" src="{{asset('img/banerR.jpg')}}" alt="">
             </div>
         </div>
     </div>
@@ -118,29 +125,31 @@ use App\Models\Product;
                         <h4>Latest Products</h4>
                         <div class="latest-product__slider owl-carousel">
                             <div class="latest-prdouct__slider__item">
-                                @foreach($latest_product_first as $item)
-                                <a href="{{ route('shop-details', ['id' => $item->id]) }}" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{{asset('img/product/'.$item->image)}}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>{{$item->product_name}}</h6>
-                                        <span>{{number_format($item->price)." VND"}}</span>
-                                    </div>
-                                </a>
+                                @foreach ($latest_product_first as $item)
+                                    <a href="{{ route('shop-details', ['id' => $item->id]) }}"
+                                        class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <img src="{{ asset('img/product/' . $item->image) }}" alt="">
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6>{{ $item->product_name }}</h6>
+                                            <span>{{ number_format($item->price) . ' VND' }}</span>
+                                        </div>
+                                    </a>
                                 @endforeach
                             </div>
                             <div class="latest-prdouct__slider__item">
-                                @foreach($latest_product_last as $item)
-                                <a href="{{ route('shop-details', ['id' => $item->id]) }}" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{{asset('img/product/'.$item->image)}}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>{{$item->product_name}}</h6>
-                                        <span>{{number_format($item->price)." VND"}}</span>
-                                    </div>
-                                </a>
+                                @foreach ($latest_product_last as $item)
+                                    <a href="{{ route('shop-details', ['id' => $item->id]) }}"
+                                        class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <img src="{{ asset('img/product/' . $item->image) }}" alt="">
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6>{{ $item->product_name }}</h6>
+                                            <span>{{ number_format($item->price) . ' VND' }}</span>
+                                        </div>
+                                    </a>
                                 @endforeach
                             </div>
                         </div>
@@ -151,33 +160,35 @@ use App\Models\Product;
                         <h4>Selling Products</h4>
                         <div class="latest-product__slider owl-carousel">
                             <div class="latest-prdouct__slider__item">
-                                @foreach($sell_first as $item)
-                                <?php $product= Product::where('id',$item->product_id)->first() ?>
-                                <a href="{{ route('shop-details', ['id' => $product->id]) }}" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{{asset('img/product/'.$product->image)}}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>{{$product->product_name}}</h6>
-                                        <span>{{number_format($product->price)." VND"}}</span>
-                                    </div>
-                                </a>
+                                @foreach ($sell_first as $item)
+                                    <?php $product = Product::where('id', $item->product_id)->first(); ?>
+                                    <a href="{{ route('shop-details', ['id' => $product->id]) }}"
+                                        class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <img src="{{ asset('img/product/' . $product->image) }}" alt="">
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6>{{ $product->product_name }}</h6>
+                                            <span>{{ number_format($product->price) . ' VND' }}</span>
+                                        </div>
+                                    </a>
                                 @endforeach
-                               
+
                             </div>
                             <div class="latest-prdouct__slider__item">
-                              
-                                @foreach($sell_last as $item)
-                                <?php $product= Product::where('id',$item->product_id)->first() ?>
-                                <a href="{{ route('shop-details', ['id' => $product->id]) }}" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="{{asset('img/product/'.$product->image)}}" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>{{$product->product_name}}</h6>
-                                        <span>{{number_format($product->price)." VND"}}</span>
-                                    </div>
-                                </a>
+
+                                @foreach ($sell_last as $item)
+                                    <?php $product = Product::where('id', $item->product_id)->first(); ?>
+                                    <a href="{{ route('shop-details', ['id' => $product->id]) }}"
+                                        class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <img src="{{ asset('img/product/' . $product->image) }}" alt="">
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6>{{ $product->product_name }}</h6>
+                                            <span>{{ number_format($product->price) . ' VND' }}</span>
+                                        </div>
+                                    </a>
                                 @endforeach
                             </div>
                         </div>
@@ -188,62 +199,32 @@ use App\Models\Product;
                         <h4>Review Products</h4>
                         <div class="latest-product__slider owl-carousel">
                             <div class="latest-prdouct__slider__item">
-                                <a href="#" class="latest-product__item">
+                                @foreach($review_first as $item)
+                                <?php $product=Product::where('id',$item->product_id)->first() ?>
+                                <a href="{{ route('shop-details', ['id' => $product->id]) }}" class="latest-product__item">
                                     <div class="latest-product__item__pic">
-                                        <img src="img/latest-product/lp-1.jpg" alt="">
+                                        <img src="{{ asset('img/product/' . $product->image) }}" alt="">
                                     </div>
                                     <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
+                                        <h6>{{ $product->product_name }}</h6>
+                                        <span>{{ number_format($product->price) . ' VND' }}</span>
                                     </div>
                                 </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="img/latest-product/lp-2.jpg" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="img/latest-product/lp-3.jpg" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
+                               @endforeach
                             </div>
                             <div class="latest-prdouct__slider__item">
-                                <a href="#" class="latest-product__item">
+                                @foreach($review_last as $item)
+                                <?php $product=Product::where('id',$item->product_id)->first() ?>
+                                <a href="{{ route('shop-details', ['id' => $product->id]) }}" class="latest-product__item">
                                     <div class="latest-product__item__pic">
-                                        <img src="img/latest-product/lp-1.jpg" alt="">
+                                        <img src="{{ asset('img/product/' . $product->image) }}" alt="">
                                     </div>
                                     <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
+                                        <h6>{{ $product->product_name }}</h6>
+                                        <span>{{ number_format($product->price) . ' VND' }}</span>
                                     </div>
                                 </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="img/latest-product/lp-2.jpg" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="img/latest-product/lp-3.jpg" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
+                               @endforeach
                             </div>
                         </div>
                     </div>

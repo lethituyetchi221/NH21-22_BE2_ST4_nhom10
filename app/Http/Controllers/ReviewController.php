@@ -13,6 +13,12 @@ class ReviewController extends Controller
 {
 
 
+    public function deleteComment($id)
+    {
+        Review::where('id',$id)->delete();
+
+        return redirect()->back()->with('Success', 'Xóa comment thành công');
+    }
 
     public function addComment($id, Request $request)
     {

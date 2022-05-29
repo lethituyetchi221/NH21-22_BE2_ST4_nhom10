@@ -112,8 +112,9 @@ use App\Models\Order;
                         <a class="collapse-item" href="{{ route('showBill') }}">Bills</a>
                         <a class="collapse-item" href="{{ route('showOrder') }}">Orders</a>
                         <a class="collapse-item" href="{{ route('showUser') }}">Users</a>
-                        <a class="collapse-item" href="{{route('showWishlist')}}">Wishlists</a>
-                        {{-- <a class="collapse-item" href="{{route('')}}">Reviews</a> --}}
+                        <a class="collapse-item" href="{{route('showWishlistAdmin')}}">Wishlists</a>
+                        <a class="collapse-item" href="{{route('showSelling')}}">Sellings</a>
+                        <a class="collapse-item" href="{{route('showReview')}}">Reviews</a>
                     </div>
                 </div>
             </li>

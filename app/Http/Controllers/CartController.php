@@ -21,50 +21,75 @@ class CartController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    function addCartPost($id, Request $request){
-        $productByID = Product::where('id','=', $id)->first();
+    public function deQty($rowID)
+    {
+        $row = Cart::get($rowID);
+        if($row->qty==1){
+            return redirect()->back()->with('Error','Số lượng đạt mức tối thiểu');
+        }else{
+            Cart::update($rowID, $row->qty - 1);
+        }
+        
+
+        return redirect()->back();
+    }
+    public function inQty($rowID)
+    {
+        $row = Cart::get($rowID);
+        Cart::update($rowID, $row->qty + 1);
+
+        return redirect()->back();
+    }
+
+    function addCartPost($id, Request $request)
+    {
+        $productByID = Product::where('id', '=', $id)->first();
         Cart::add([
-            'id'=>$id,
-            'name'=>$productByID->product_name,
-            'qty'=>$request->qty,
-            'price'=>$productByID->price,
-            'weight'=>0,
-            'options'=>[ 
-                'image'=>$productByID->image,
-                'create_date'=>$productByID->create_date,
-                'status'=>0] 
+            'id' => $id,
+            'name' => $productByID->product_name,
+            'qty' => $request->qty,
+            'price' => $productByID->price,
+            'weight' => 0,
+            'options' => [
+                'image' => $productByID->image,
+                'create_date' => $productByID->create_date,
+                'status' => 0
+            ]
         ]);
-       // dd(Cart::content());
+        // dd(Cart::content());
         return redirect()->route('showCart');
     }
-    function addCartGet($id){
-        $productByID = Product::where('id','=', $id)->first();
+    function addCartGet($id)
+    {
+        $productByID = Product::where('id', '=', $id)->first();
         Cart::add([
-            'id'=>$id,
-            'name'=>$productByID->product_name,
-            'qty'=>1,
-            'price'=>$productByID->price,
-            'weight'=>0,
-            'options'=>[ 
-                'image'=>$productByID->image,
-                'create_date'=>$productByID->create_date] 
+            'id' => $id,
+            'name' => $productByID->product_name,
+            'qty' => 1,
+            'price' => $productByID->price,
+            'weight' => 0,
+            'options' => [
+                'image' => $productByID->image,
+                'create_date' => $productByID->create_date
+            ]
         ]);
-       // dd(Cart::content());
+        // dd(Cart::content());
         return redirect()->route('showCart');
     }
-    function deleteItem($rowID){
-        Cart::remove($rowID);   
+    function deleteItem($rowID)
+    {
+        Cart::remove($rowID);
         return redirect()->route('showCart');
     }
 
-   
+
 
     public function showCart()
     {
         // $bill_by_userId = Bill_detail::where('user_id','=', Auth::user()->id)->orderBy('create_date', 'desc')->get();
         $cart_priceTotal = Cart::priceTotal();
-        $all_typeProduct= Type_product::all();
-        return view('shoping-cart', compact('cart_priceTotal','all_typeProduct'));
+        $all_typeProduct = Type_product::all();
+        return view('shoping-cart', compact('cart_priceTotal', 'all_typeProduct'));
     }
     public function billSuccess()
     {
@@ -72,7 +97,7 @@ class CartController extends Controller
         $success = "<script>alertify.success('Đặt hàng thành công');</script>";
         return view('shoping-cart', compact('cart_priceTotal', 'success'));
     }
-    
+
 
     public function index()
     {

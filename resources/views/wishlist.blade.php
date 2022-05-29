@@ -62,7 +62,9 @@ use App\Models\Wishlist;
                             <div class="product__item">
                                 <div class="product__item__pic set-bg" data-setbg="{{asset('img/product/'.$product->image)}}">
                                     <ul class="product__item__pic__hover">
-                                        <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                                        <li><a href="{{route('addWishlist',['id'=>$product->id])}}"><i class="fa fa-heart" <?php if (Auth::check() && count(Wishlist::where('user_id',Auth::user()->id)->where('product_id',$product->id)->get())) {
+                                            echo 'style="color: red"';
+                                        } ?>></i></a></li>
                                         <li><a href="#"><i class="fa fa-retweet"></i></a></li>
                                         <li><a onclick="AddCart()" href="{{route('addCartGet', ['id'=> $product->id])}}"><i class="fa fa-shopping-cart"></i></a></li>
                                     </ul>

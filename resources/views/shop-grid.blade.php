@@ -1,5 +1,8 @@
 @extends('layout')
 @section('content')
+    <?php
+    use App\Models\Wishlist;
+    ?>
     <!-- Breadcrumb Section Begin -->
     <section class="breadcrumb-section set-bg" data-setbg="{{ asset('img/breadcrumb.jpg') }}">
         <div class="container">
@@ -187,9 +190,17 @@
                                         data-setbg="{{ asset('img/product/' . $item->image) }}">
                                         <ul class="product__item__pic__hover">
 
-                                            <li><a href="{{route('addWishlist',['id'=>$item->id])}}"><i class="fa fa-heart"></i></a></li>
-                                            {{-- <li id="temp" value="{{$item->id}}"><a onclick="(product_id)=>{AddWishlist(product_id)}"><i
-                                                        class="fa fa-heart"></i></a></li> --}}
+                                            <li><a href="{{ route('addWishlist', ['id' => $item->id]) }}"><i
+                                                        class="fa fa-heart" <?php if (
+                                                            Auth::check() &&
+                                                            count(
+                                                                Wishlist::where('user_id', Auth::user()->id)
+                                                                    ->where('product_id', $item->id)
+                                                                    ->get(),
+                                                            )
+                                                        ) {
+                                                            echo 'style="color: red"';
+                                                        } ?>></i></a></li>
                                             <li><a href="#"><i class="fa fa-retweet"></i></a></li>
                                             <li><a onclick="AddCart()"
                                                     href="{{ route('addCartGet', ['id' => $item->id]) }}">

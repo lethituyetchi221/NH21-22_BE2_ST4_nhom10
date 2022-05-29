@@ -10,7 +10,7 @@
     <div class="container-fluid">
 
         <!-- Page Heading -->
-        <h1 class="h3 mb-2 text-gray-800">Wishlists</h1>
+        <h1 class="h3 mb-2 text-gray-800">Reviews</h1>
         {{-- <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
                         For more information about DataTables, please visit the <a target="_blank"
                             href="https://datatables.net">official DataTables documentation</a>.</p> --}}
@@ -18,7 +18,7 @@
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Wishlists of Royal SuShi</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Reviews of Royal SuShi</h6>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -27,15 +27,18 @@
                             <tr>
                                 <th>Product ID</th>
                                 <th>Product</th>
-                                <th>User</th>
                                 <th>User ID</th>
-                                {{-- <th></th> --}}
+                                <th>User</th>
+                                <th>Comment</th>
+                                <th>Create Date</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($all_wishlist as $item)
+                            @foreach ($all_review as $item)
                                 <?php $product = Product::where('id', $item->product_id)->first();
                                 $user = User::where('id', $item->user_id)->first();
+
                                 ?>
                                 <tr>
                                     <td>{{ $product->id }}</td>
@@ -44,13 +47,11 @@
                                             alt="">{{ $product->product_name }}</td>
                                     <td>{{ $user->id }}</td>
                                     <td>{{ $user->name }}</td>
+                                    <td>{{ $item->comment }}</td>
+                                    <td>{{ $item->created_at }}</td>
 
 
-                                    {{-- <td class="text-center">
-                                        <a href="{{ route('showEditBill_admin', ['id' => $item->id]) }}"
-                                            class="btn btn-info btn-circle btn-sm">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
+                                    <td class="text-center">
                                         <a data-toggle="modal" data-target="#deleteModal{{ $item->id }}" href="#"
                                             class="btn btn-danger btn-circle btn-sm">
                                             <i class="fas fa-trash"></i>
@@ -71,12 +72,12 @@
                                                         <button class="btn btn-secondary" type="button"
                                                             data-dismiss="modal">Cancel</button>
                                                         <a class="btn btn-primary"
-                                                            href="{{ route('deleteUser', ['id' => $item->id]) }}">Delete</a>
+                                                            href="{{ route('deleteComment', ['id' => $item->id]) }}">Delete</a>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </td> --}}
+                                    </td>
 
                                 </tr>
                             @endforeach
@@ -86,7 +87,7 @@
                     </table>
                     <div class="row" style=" float:right;">
                         <div class="div">
-                            {{ $all_wishlist->appends(request()->all())->links() }}
+                            {{ $all_review->appends(request()->all())->links() }}
 
                         </div>
                     </div>

@@ -10,7 +10,7 @@
     <div class="container-fluid">
 
         <!-- Page Heading -->
-        <h1 class="h3 mb-2 text-gray-800">Wishlists</h1>
+        <h1 class="h3 mb-2 text-gray-800">Sellings</h1>
         {{-- <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
                         For more information about DataTables, please visit the <a target="_blank"
                             href="https://datatables.net">official DataTables documentation</a>.</p> --}}
@@ -18,7 +18,7 @@
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Wishlists of Royal SuShi</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Sellings of Royal SuShi</h6>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -27,23 +27,20 @@
                             <tr>
                                 <th>Product ID</th>
                                 <th>Product</th>
-                                <th>User</th>
-                                <th>User ID</th>
+                                <th>Quanty</th>
                                 {{-- <th></th> --}}
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($all_wishlist as $item)
+                            @foreach ($all_selling as $item)
                                 <?php $product = Product::where('id', $item->product_id)->first();
-                                $user = User::where('id', $item->user_id)->first();
                                 ?>
                                 <tr>
                                     <td>{{ $product->id }}</td>
                                     <td> <img style="width: 100px; height: 100px;"
                                             src="{{ asset('img/product/' . $product->image) }}"
                                             alt="">{{ $product->product_name }}</td>
-                                    <td>{{ $user->id }}</td>
-                                    <td>{{ $user->name }}</td>
+                                    <td>{{ $item->quanty }}</td>
 
 
                                     {{-- <td class="text-center">
@@ -86,7 +83,7 @@
                     </table>
                     <div class="row" style=" float:right;">
                         <div class="div">
-                            {{ $all_wishlist->appends(request()->all())->links() }}
+                            {{ $all_selling->appends(request()->all())->links() }}
 
                         </div>
                     </div>

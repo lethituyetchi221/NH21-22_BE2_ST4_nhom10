@@ -11,7 +11,7 @@ use App\Models\Order;
 use App\Models\User;
 use App\Models\Wishlist;
 use App\Models\Selling;
-use PhpParser\Node\Stmt\Else_;
+use App\Models\Review;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -22,11 +22,25 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function showReview()
+    {
+        $all_review = Review::orderBy('created_at', 'desc')->paginate(9);
+        $all_typeProduct = Type_product::all();
+        return view('admin/review', compact('all_typeProduct', 'all_review'));
+    }
+
+    public function showSelling()
+    {
+        $all_selling = Selling::orderBy('quanty', 'desc')->paginate(9);
+        $all_typeProduct = Type_product::all();
+        return view('admin/selling', compact('all_selling', 'all_typeProduct'));
+    }
+
     public function showWishlistAdmin()
     {
         $all_wishlist = Wishlist::orderBy('created_at', 'desc')->paginate(9);
         $all_typeProduct = Type_product::all();
-        return view('admin.wishlist', compact('all_typeProduct', 'all_wishlist'));
+        return view('admin/wishlist', compact('all_typeProduct', 'all_wishlist'));
     }
     public function addUser(Request $request)
     {

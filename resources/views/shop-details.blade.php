@@ -2,6 +2,9 @@
 @section('content')
     <?php use App\Models\User;
     use App\Models\Review;
+    use App\Models\Wishlist;
+    use App\Models\Selling;
+    
     ?>
     <!-- Breadcrumb Section Begin -->
     <section class="breadcrumb-section set-bg" data-setbg="{{ asset('img/breadcrumb.jpg') }}">
@@ -9,11 +12,11 @@
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div class="breadcrumb__text">
-                        <h2>Vegetable’s Package</h2>
+                        <h2>Detail Product</h2>
                         <div class="breadcrumb__option">
                             <a href="{{ url('/index') }}">Home</a>
                             {{-- <a href="./index.html">Vegetables</a> --}}
-                            <span>Vegetable’s Package</span>
+                            <span>Detail Product</span>
                         </div>
                     </div>
                 </div>
@@ -50,11 +53,18 @@
                                             </div>
                                         </div>
                                     </div>
-                                    {{-- <a href="{{route('addCart',['id'=>$item->id, 'qty'=>])}}" class="primary-btn">ADD TO CARD</a> --}}
-                                    {{-- <a href="{{route('addCart',['id'=>$item->id, 'qty'=>2])}}" class="primary-btn">ADD TO CARD</a> --}}
                                     <button type="submit" class="primary-btn">add to cart</button>
-                                    <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
-                                    <ul>
+                                    <a href="{{ route('addWishlist', ['id' => $item->id]) }}" class="heart-icon"><span
+                                            class="icon_heart_alt"></span></a>
+                                    <div style="margin-bottom: 0px">
+                                        <?php $sell=Selling::where('product_id',$item->id)->first(); ?>
+                                        Đã bán: <?php if($sell!=null){
+                                            echo $sell->quanty;
+                                        }else{
+                                            echo '0';
+                                        } ?>
+                                    </div>
+                                    <ul style="margin-top: 0px">
                                         <li><b>Availability</b> <span>In Stock</span></li>
                                         <li><b>Shipping</b> <span>01 day shipping. <samp>Free pickup today</samp></span>
                                         </li>
@@ -234,9 +244,20 @@
                                 <div class="product__item__pic set-bg"
                                     data-setbg="{{ asset('img/product/' . $item->image) }}">
                                     <ul class="product__item__pic__hover">
-                                        <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                                        <li><a href="{{ route('addWishlist', ['id' => $item->id]) }}"><i
+                                                    class="fa fa-heart" <?php if (
+                                                        Auth::check() &&
+                                                        count(
+                                                            Wishlist::where('user_id', Auth::user()->id)
+                                                                ->where('product_id', $item->id)
+                                                                ->get(),
+                                                        )
+                                                    ) {
+                                                        echo 'style="color: red"';
+                                                    } ?>></i></a></li>
                                         <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                        <li><a href="{{ route('addCartGet', ['id' => $item->id]) }}"><i
+                                                    class="fa fa-shopping-cart"></i></a></li>
                                     </ul>
                                 </div>
                                 <div class="product__item__text">

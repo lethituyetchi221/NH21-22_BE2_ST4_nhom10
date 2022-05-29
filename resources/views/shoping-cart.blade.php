@@ -49,12 +49,20 @@
                                         {{number_format($item->price)}}
                                     </td>
                                     <td class="shoping__cart__quantity">
+                                        <div class="quantity buttons_added">
+                                            <a href="{{route('deQty',['rowID'=>$item->rowId])}}"><input type="button" class="minus" value="-"></a>
+                                            <input style="text-align: center" readonly type="text" size="1" class="input-text qty text" title="Qty" value="{{$item->qty}}">
+                                            <a href="{{route('inQty',['rowID'=>$item->rowId])}}"><input type="button" class="plus" value="+"></a>
+                                        </div>
+                                    </td>
+                                    {{-- <td class="shoping__cart__quantity">
                                         <div class="quantity">
                                             <div class="pro-qty">
                                                 <input type="text" value="{{$item->qty}}">
+
                                             </div>
                                         </div>
-                                    </td>
+                                    </td> --}}
                                     <td class="shoping__cart__total">
                                         {{number_format($item->price * $item->qty)}}
                                     </td>
@@ -93,8 +101,8 @@
                     <div class="shoping__checkout">
                         <h5>Cart Total</h5>
                         <ul>
-                            <li>Subtotal <span> </span></li>
-                            <li>Total <span> </span></li>
+                            <li>Subtotal <span> {{Cart::subtotal()." VND"}} </span></li>
+                            <li>Total <span>{{Cart::subtotal(). " VND"}} </span></li>
                         </ul>
                         <a href="{{route('checkout')}}" class="primary-btn">PROCEED TO CHECKOUT</a>
                     </div>

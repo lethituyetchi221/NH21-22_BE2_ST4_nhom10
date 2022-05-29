@@ -35,6 +35,7 @@ class WishlistController extends Controller
 
     public function showWishlist()
     {
+       
         $all_typeProduct = Type_product::all();
         $all_wishlist = Wishlist::where('user_id', '=', Auth::user()->id)->paginate(9);
         return view('/wishlist', compact('all_wishlist', 'all_typeProduct'));

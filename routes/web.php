@@ -42,11 +42,13 @@ Route::get('/auth.edit-profile', [UserController::class, 'showEditProfile'])->na
 Route::post('/updateProfile', [UserController::class, 'updateProfile'])->name('updateProfile');
 Route::post('/changePassword', [UserController::class, 'changePassword'])->name('changePassword');
 
-
+//cart
 Route::post('/addCart/{id}', [CartController::class, 'addCartPost'])->name('addCartPost');
 Route::get('/addCart/{id}', [CartController::class, 'addCartGet'])->name('addCartGet');
 Route::get('/deleteCart/{rowId}', [CartController::class, 'deleteItem'])->name('deleteCart');
 Route::get('/shoping-cart', [CartController::class, 'showCart'])->name('showCart');
+Route::get('/deQty/{rowID}', [CartController::class, 'deQty'])->name('deQty');
+Route::get('/inQty/{rowID}', [CartController::class, 'inQty'])->name('inQty');
 
 
 Route::get('/checkout', [PageController::class, 'checkout'])->name('checkout')->middleware('auth')->middleware('checkCheckout');
@@ -57,7 +59,8 @@ Route::get('/showEditBill/{bill_id}', [Bill_detailController::class, 'showEditBi
 Route::post('/editBill/{bill_id}', [Bill_detailController::class, 'editBill'])->name('editBill');
 Route::get('/successBill/{bill_id}', [Bill_detailController::class, 'successBill'])->name('successBill');
 
-Route::get('/showWishlist', [WishlistController::class, 'showWishlist'])->name('showWishlist')->middleware('auth');
+Route::get('/wishlist', [WishlistController::class, 'showWishlist'])->name('showWishlist')->middleware('auth');
+// Route::get('/showWishlist', [WishlistController::class, 'showWishlist'])->name('showWishlist')->middleware('auth');
 Route::get('/addWishlist/{id}', [WishlistController::class, 'addWishlist'])->name('addWishlist')->middleware('auth');
 
 //admin
@@ -68,6 +71,8 @@ Route::get('/showBill', [AdminController::class, 'showBill'])->name('showBill');
 Route::get('/showOrder', [AdminController::class, 'showOrder'])->name('showOrder');
 Route::get('/showUser', [AdminController::class, 'showUser'])->name('showUser');
 Route::get('/showWishlistAdmin', [AdminController::class, 'showWishlistAdmin'])->name('showWishlistAdmin');
+Route::get('/showSelling', [AdminController::class, 'showSelling'])->name('showSelling');
+Route::get('/showReview', [AdminController::class, 'showReview'])->name('showReview');
 
 
 //product
@@ -96,6 +101,7 @@ Route::post('/addUser', [AdminController::class, 'addUser'])->name('addUser');
 
 //comment
 Route::post('/addComment/{id}', [ReviewController::class, 'addComment'])->name('addComment');
+Route::get('/deleteComment/{id}', [ReviewController::class, 'deleteComment'])->name('deleteComment');
 
 
 Route::get('/{id}', [PageController::class, 'index'])->name('index');

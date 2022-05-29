@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Selling;
+use App\Models\Review;
+use App\Models\Wishlist;
 use App\Models\Type_product;
+use Illuminate\Support\Facades\Auth;
+
 
 class PageController extends Controller
 {
@@ -18,26 +22,35 @@ class PageController extends Controller
     {
         $latest_product_first = Product::orderBy('create_date', 'desc')->limit(3)->get();
         $latest_product_last = Product::orderBy('create_date', 'desc')->offset(4)->limit(3)->get();
-        $sell_first= Selling::orderBy('quanty','desc')->limit(3)->get();
-        $sell_last= Selling::orderBy('quanty','desc')->offset(4)->limit(3)->get();
+        $sell_first = Selling::orderBy('quanty', 'desc')->limit(3)->get();
+        $sell_last = Selling::orderBy('quanty', 'desc')->offset(4)->limit(3)->get();
+        $review_first = Review::orderBy('created_at', 'desc')->limit(3)->get();
+        $review_last = Review::orderBy('created_at', 'desc')->offset(4)->limit(3)->get();
+
         $all_typeProduct = Type_product::all();
 
-        return view('/' . $id, compact('all_typeProduct','latest_product_first','latest_product_last','sell_first','sell_last'));
+        return view('/' . $id, compact('all_typeProduct', 'latest_product_first', 'latest_product_last', 'sell_first', 'sell_last', 'review_first', 'review_last'));
     }
     public function home()
     {
+
         $latest_product_first = Product::orderBy('create_date', 'desc')->limit(3)->get();
         $latest_product_last = Product::orderBy('create_date', 'desc')->offset(4)->limit(3)->get();
-        $sell_first= Selling::orderBy('quanty','desc')->limit(3)->get();
-        $sell_last= Selling::orderBy('quanty','desc')->offset(4)->limit(3)->get();
+        $sell_first = Selling::orderBy('quanty', 'desc')->limit(3)->get();
+        $sell_last = Selling::orderBy('quanty', 'desc')->offset(4)->limit(3)->get();
+        $review_first = Review::orderBy('created_at', 'desc')->limit(3)->get();
+        $review_last = Review::orderBy('created_at', 'desc')->offset(4)->limit(3)->get();
+
         $all_typeProduct = Type_product::all();
 
-        return view('index', compact('all_typeProduct','latest_product_first','latest_product_last','sell_first','sell_last'));
+        return view('index', compact('all_typeProduct', 'latest_product_first', 'latest_product_last', 'sell_first', 'sell_last', 'review_first', 'review_last'));
     }
 
     public function checkout()
     {
-        return view('checkout');
+        $all_typeProduct = Type_product::all();
+
+        return view('checkout', compact('all_typeProduct'));
     }
 
     public function showLogin()
