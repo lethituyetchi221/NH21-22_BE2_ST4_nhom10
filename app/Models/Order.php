@@ -19,4 +19,11 @@ class Order extends Model
       //   //    return $this-> hasOne(Type_product::class, 'type_id');
       //    return $this->belongsTo(Type_product::class,'type_id','id');
       //  }
+
+      public function scopeSearch($query){
+        if($key = request()->key){
+           $query = $query->where('product_id','like','%'.$key.'%')->orWhere('qty','like','%'.$key.'%')->orWhere('bill_detail_id','like','%'.$key.'%')->orWhere('total','like','%'.$key.'%');
+        }
+        return $query;
+     }
 }

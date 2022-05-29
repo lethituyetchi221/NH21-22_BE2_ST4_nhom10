@@ -27,8 +27,8 @@
                             <tr>
                                 <th>Product ID</th>
                                 <th>Product</th>
-                                <th>User</th>
                                 <th>User ID</th>
+                                <th>User</th>
                                 {{-- <th></th> --}}
                             </tr>
                         </thead>

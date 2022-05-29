@@ -11,6 +11,12 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    public function scopeSearch($query){
+        if($key = request()->key){
+           $query = $query->where('name','like','%'.$key.'%')->orWhere('email','like','%'.$key.'%')->orWhere('role','like','%'.$key.'%');
+        }
+        return $query;
+     }
     /**
      * The attributes that are mass assignable.
      *

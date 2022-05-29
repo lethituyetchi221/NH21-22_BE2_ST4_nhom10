@@ -12,4 +12,11 @@ class Type_product extends Model
     public function products() {
         return  $this->hasMany(Product::class,'id','type_id');
     }
+
+    public function scopeSearch($query){
+        if($key = request()->key){
+           $query = $query->where('type_name','like','%'.$key.'%');
+        }
+        return $query;
+     }
 }

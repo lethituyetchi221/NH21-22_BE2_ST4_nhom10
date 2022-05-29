@@ -21,7 +21,8 @@
                 <div class="table-responsive">
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
-                            <form action="{{route('editProduct',['id'=>$product->id])}}" method="post" enctype="multipart/form-data" id="image-form">
+                            <form action="{{ route('editProduct', ['id' => $product->id]) }}" method="post"
+                                enctype="multipart/form-data" id="image-form">
                                 @csrf
                                 @if (isset($product))
                                     <div class="row">
@@ -70,7 +71,8 @@
                                                 <div class="col-8">
                                                     {{-- <textarea name="desc" id="summernote" class="form-control" rows="4">{{$product->description}}</textarea> --}}
 
-                                                    <textarea id="summernote" required class="form-control" aria-label="With textarea" name="description">{{ $product->description }}</textarea>
+                                                    <textarea id="summernote" required class="form-control" aria-label="With textarea"
+                                                        name="description">{{ $product->description }}</textarea>
                                                 </div>
                                             </div>
                                             <div class="row" style="margin-bottom: 10px">
@@ -91,12 +93,9 @@
                                             </div>
                                         </div>
                                         <div class="col-4">
-                                            {{-- <input type="file" name="file" required> --}}
                                             <div class="ml-2 col-sm-12">
                                                 <div id="msg"></div>
-                                                {{-- <form method="post" id="image-form"> --}}
-                                                <input type="file" name="file" class="file" accept="image/*"
-                                                    >
+                                                <input type="file" name="file" class="file" accept="image/*">
                                                 <div class="input-group my-3">
                                                     <input type="text" class="form-control" disabled
                                                         placeholder="Upload File" id="file">
@@ -105,13 +104,10 @@
                                                             class="browse btn btn-primary">Browse...</button>
                                                     </div>
                                                 </div>
-                                                {{-- </form> --}}
                                             </div>
                                             <div class="ml-2 col-sm-12">
-                                                {{-- <img src="https://placehold.it/80x80" id="preview" class="img-thumbnail"
-                                                    style="width:100%; heigth:100%"> --}}
-                                                <img src="{{asset('img/product/'.$product->image)}}" id="preview" class="img-thumbnail"
-                                                    style="width:100%; heigth:100%">
+                                                <img src="{{ asset('img/product/' . $product->image) }}" id="preview"
+                                                    class="img-thumbnail" style="width:100%; heigth:100%">
                                             </div>
                                         </div>
                                     </div>

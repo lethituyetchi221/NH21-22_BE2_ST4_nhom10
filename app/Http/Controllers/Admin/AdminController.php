@@ -24,21 +24,21 @@ class AdminController extends Controller
      */
     public function showReview()
     {
-        $all_review = Review::orderBy('created_at', 'desc')->paginate(9);
+        $all_review = Review::orderBy('created_at', 'desc')->search()->paginate(9);
         $all_typeProduct = Type_product::all();
         return view('admin/review', compact('all_typeProduct', 'all_review'));
     }
 
     public function showSelling()
     {
-        $all_selling = Selling::orderBy('quanty', 'desc')->paginate(9);
+        $all_selling = Selling::orderBy('quanty', 'desc')->search()->paginate(9);
         $all_typeProduct = Type_product::all();
         return view('admin/selling', compact('all_selling', 'all_typeProduct'));
     }
 
     public function showWishlistAdmin()
     {
-        $all_wishlist = Wishlist::orderBy('created_at', 'desc')->paginate(9);
+        $all_wishlist = Wishlist::orderBy('created_at', 'desc')->search()->paginate(9);
         $all_typeProduct = Type_product::all();
         return view('admin/wishlist', compact('all_typeProduct', 'all_wishlist'));
     }
@@ -81,14 +81,14 @@ class AdminController extends Controller
 
     public function showUser()
     {
-        $all_user = User::orderBy('created_at', 'desc')->paginate(9);
+        $all_user = User::orderBy('created_at', 'desc')->search()->paginate(9);
         $all_typeProduct = Type_product::all();
         return view('admin.user', compact('all_typeProduct', 'all_user'));
     }
     public function showOrder()
     {
         $all_typeProduct = Type_product::all();
-        $all_order = Order::orderBy('created_at', 'desc')->paginate(9);
+        $all_order = Order::orderBy('created_at', 'desc')->search()->paginate(9);
         return view('admin.order', compact('all_typeProduct', 'all_order'));
     }
     public function deleteBill_admin($id)
@@ -136,7 +136,7 @@ class AdminController extends Controller
     public function showBill()
     {
         $all_typeProduct = Type_product::all();
-        $all_bill = Bill_detail::orderBy('create_date', 'desc')->paginate(9);
+        $all_bill = Bill_detail::orderBy('create_date', 'desc')->search()->paginate(9);
         return view('admin.bill', compact('all_typeProduct', 'all_bill'));
     }
     public function deleteProtype($id)
@@ -177,13 +177,13 @@ class AdminController extends Controller
     public function showProtype()
     {
         $all_typeProduct = Type_product::all();
-        $all_protype = Type_product::paginate(9);
+        $all_protype = Type_product::search()->paginate(9);
         return view('admin.protype', compact('all_typeProduct', 'all_protype'));
     }
     public function showProduct()
     {
         $all_typeProduct = Type_product::all();
-        $all_product = Product::orderBy('create_date', 'desc')->paginate(9);
+        $all_product = Product::orderBy('create_date', 'desc')->search()->paginate(9);
         return view('admin.product', compact('all_typeProduct', 'all_product'));
     }
     public function editProduct($id, Request $request)
@@ -225,8 +225,12 @@ class AdminController extends Controller
     }
     public function deleteProduct($id)
     {
-        Product::where('id', '=', $id)->delete();
-        return  redirect()->back()->with('Success', 'Xóa thành công');
+        if (count(Order::where('product_id', $id)->get()) == 0  && count(Review::where('product_id', $id)->get()) == 0 && count(Selling::where('product_id', $id)->get()) == 0 && count(Wishlist::where('product_id', $id)->get()) == 0) {
+            Product::where('id', '=', $id)->delete();
+            return  redirect()->back()->with('Success', 'Xóa thành công');
+        } else {
+            return  redirect()->back()->with('Error', 'Không thể xóa sản phẩm');
+        }
     }
     public function addProduct(Request $request)
     {
@@ -263,7 +267,7 @@ class AdminController extends Controller
     {
         $all_typeProduct = Type_product::all();
         $typeProduct = Type_product::where('id', '=', $id)->first();
-        $all_product_by_type_id = Product::where('type_id', '=', $id)->with('type_products')->orderBy('create_date', 'desc')->paginate(9);
+        $all_product_by_type_id = Product::where('type_id', '=', $id)->with('type_products')->orderBy('create_date', 'desc')->search()->paginate(9);
 
         return view('admin.items', compact('all_product_by_type_id', 'all_typeProduct', 'typeProduct'));
     }
@@ -281,10 +285,16 @@ class AdminController extends Controller
     }
     public function index($id)
     {
-
+        $qty_product = count(Product::all());
+        $qty_protype = count(Type_product::all());
+        $qty_user = count(User::all());
+        $qty_bill = count(Bill_detail::all());
+        $qty_order = count(Order::all());
+        $qty_selling = Selling::sum('quanty');
+        $earnings = Bill_detail::whereIn('status', [2, 3])->sum('total');
         $all_typeProduct = Type_product::all();
 
-        return view('admin/' . $id, compact('all_typeProduct'));
+        return view('admin/' . $id, compact('all_typeProduct', 'qty_product', 'qty_protype', 'qty_user', 'qty_bill', 'qty_order', 'qty_selling', 'earnings'));
     }
 
     /**

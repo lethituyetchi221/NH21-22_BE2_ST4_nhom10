@@ -17,4 +17,11 @@ class Bill_detail extends Model
     // public function products() {
     //     return  $this->hasMany(Product::class,'id','type_id');
     // }
+
+    public function scopeSearch($query){
+        if($key = request()->key){
+           $query = $query->where('name','like','%'.$key.'%')->orWhere('phone','like','%'.$key.'%')->orWhere('email','like','%'.$key.'%')->orWhere('address','like','%'.$key.'%')->orWhere('total','like','%'.$key.'%')->orWhere('status','like','%'.$key.'%')->orWhere('note','like','%'.$key.'%');
+        }
+        return $query;
+     }
 }
