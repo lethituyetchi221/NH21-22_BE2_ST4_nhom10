@@ -71,9 +71,7 @@ class Bill_detailController extends Controller
 
     public function addBill(Request $request)
     {
-
         $cart = Cart::content();
-
         $bill_detail = new Bill_detail();
         $bill_detail->user_id  = Auth::user()->id;
         $bill_detail->name  = $request->name;
@@ -83,11 +81,7 @@ class Bill_detailController extends Controller
         $bill_detail->status  = 0;
         $bill_detail->note  = $request->note;
         $bill_detail->create_date  = DATE(NOW());
-
-
-
         $bill_detail->save();
-
         foreach ($cart as $item) {
             if (count(Selling::where('product_id', $item->id)->get()) == 0) {
                 $sell = new Selling();

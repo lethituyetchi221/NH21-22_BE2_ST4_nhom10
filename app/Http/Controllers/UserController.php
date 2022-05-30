@@ -12,7 +12,7 @@ class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
+     *S
      * @return \Illuminate\Http\Response
      */
     public function changePassword(Request $request)

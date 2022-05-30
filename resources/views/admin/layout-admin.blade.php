@@ -57,7 +57,9 @@ use App\Models\Order;
                     <i class="fas fa-laugh-wink"></i>
                 </div>
                 <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+
             </a>
+          
 
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
@@ -165,6 +167,10 @@ use App\Models\Order;
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
+
+            <a href="{{route('logout')}}" class="btn btn-info btn-lg">
+                <span class="glyphicon glyphicon-log-out"></span> Log out
+              </a>
 
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">

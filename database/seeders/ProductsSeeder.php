@@ -45,7 +45,7 @@ class ProductsSeeder extends Seeder
               Hướng dẫn sử dụng:  Dùng ngay khi nhận hàng hoặc làm lạnh khoảng 15" trước khi ăn.',
               'image' => 'sashimi_so_duong_1_4c337f03054d4b4b941669349305b3bf_grande.jpg',
               'price' => 125000,
-              'is_featured' => 1,
+              'is_featured' => 0,
               'create_date' => DATE(NOW())
             
         ],
@@ -78,7 +78,7 @@ class ProductsSeeder extends Seeder
               Hướng dẫn sử dụng:  Dùng ngay khi nhận hàng hoặc làm lạnh khoảng 15" trước khi ăn.',
               'image' => 'spec-03_bd8e3027e16644ffa81824f793cbaf43_grande.jpg',
               'price' => 940000,
-              'is_featured' => 1,
+              'is_featured' => 0,
               'create_date' => DATE(NOW())
             
         ],
@@ -109,7 +109,7 @@ class ProductsSeeder extends Seeder
               Hướng dẫn sử dụng:  Dùng ngay khi nhận hàng hoặc làm lạnh khoảng 15" trước khi ăn',
               'image' => 'SashimiCáHồi500g.jpg',
               'price' => 680000,
-              'is_featured' => 1,
+              'is_featured' => 0,
               'create_date' => DATE(NOW())
             
         ],
@@ -139,7 +139,7 @@ class ProductsSeeder extends Seeder
               Hướng dẫn sử dụng:  Dùng ngay khi nhận hàng hoặc làm lạnh khoảng 15" trước khi ăn.',
               'image' => 'ComboSashimi3C.jpg',
               'price' => 380000,
-              'is_featured' => 1,
+              'is_featured' => 0,
               'create_date' => DATE(NOW())
             
         ],
@@ -170,7 +170,7 @@ class ProductsSeeder extends Seeder
               Hướng dẫn sử dụng:  Dùng ngay khi nhận hàng hoặc làm lạnh khoảng 15" trước khi ăn.',
               'image' => 'ComboSashimi6B.jpg',
               'price' => 650000,
-              'is_featured' => 1,
+              'is_featured' => 0,
               'create_date' => DATE(NOW())
             
         ],
@@ -202,7 +202,7 @@ class ProductsSeeder extends Seeder
               Hướng dẫn sử dụng : Dùng ngay khi nhận hàng hoặc làm lạnh khoảng 15" trước khi ăn',
               'image' => 'SushiBox10A.jpg',
               'price' => 170000,
-              'is_featured' => 1,
+              'is_featured' => 0,
               'create_date' => DATE(NOW())
             
     ],
@@ -238,7 +238,7 @@ class ProductsSeeder extends Seeder
             Hướng dẫn sử dụng: Dùng ngay khi nhận hàng hoặc làm lạnh khoảng 15" trước khi ăn.',
             'image' => 'SushiBox8A.jpg',
             'price' => 145000,
-            'is_featured' => 1,
+            'is_featured' => 0,
             'create_date' => DATE(NOW())
             ],
 
@@ -271,7 +271,7 @@ class ProductsSeeder extends Seeder
             Hướng dẫn sử dụng : Dùng ngay khi nhận hàng hoặc làm lạnh khoảng 15" trước khi ăn',
           'image' => 'SushiBox4A.jpg',
           'price' => 75000,
-          'is_featured' => 1,
+          'is_featured' => 0,
           'create_date' => DATE(NOW())
           ],
 
@@ -302,7 +302,7 @@ class ProductsSeeder extends Seeder
           Hướng dẫn sử dụng: Dùng ngay khi nhận hàng hoặc làm lạnh khoảng 15" trước khi ăn',
           'image' => 'Sushi9B.jpg',
           'price' => 245000,
-          'is_featured' => 1,
+          'is_featured' => 0,
           'create_date' => DATE(NOW())
           ],
 
@@ -333,7 +333,7 @@ class ProductsSeeder extends Seeder
           Hướng dẫn sử dụng: Dùng ngay khi nhận hàng hoặc làm lạnh khoảng 15" trước khi ăn',
           'image' => 'SushiMix4A.jpg',
           'price' =>145000,
-          'is_featured' => 1,
+          'is_featured' => 0,
           'create_date' => DATE(NOW())
           ],
 
@@ -363,7 +363,7 @@ class ProductsSeeder extends Seeder
           Hướng dẫn sử dụng:  Dùng ngay khi nhận hàng',
           'image' => 'SaladCaHoi&Bo.jpg',
           'price' =>125000,
-          'is_featured' => 1,
+          'is_featured' => 0,
           'create_date' => DATE(NOW())
           ],
 
@@ -396,7 +396,7 @@ class ProductsSeeder extends Seeder
           Hướng dẫn sử dụng:  Dùng ngay khi nhận hàng',
           'image' => 'SaladRongNho.jpg',
           'price' =>60000,
-          'is_featured' => 1,
+          'is_featured' => 0,
           'create_date' => DATE(NOW())
           ],
 
@@ -429,7 +429,7 @@ class ProductsSeeder extends Seeder
           Hướng dẫn sử dụng:  Dùng ngay khi nhận hàng',
           'image' => 'SaladThanhCua.jpg',
           'price' =>60000,
-          'is_featured' => 1,
+          'is_featured' => 0,
           'create_date' => DATE(NOW())
           ],
 
@@ -460,7 +460,7 @@ class ProductsSeeder extends Seeder
           Hướng dẫn sử dụng:  Dùng ngay khi nhận hàng',
           'image' => 'SaladCaTrichEpTrung.jpg',
           'price' =>130000,
-          'is_featured' => 1,
+          'is_featured' => 0,
           'create_date' => DATE(NOW())
           ],
 
@@ -493,7 +493,7 @@ class ProductsSeeder extends Seeder
           Hướng dẫn sử dụng: Dùng ngay khi nhận hàng hoặc làm nóng 1 phút trước khi ăn.',
           'image' => 'SoupMiso.jpg',
           'price' =>25000,
-          'is_featured' => 1,
+          'is_featured' => 0,
           'create_date' => DATE(NOW())
           ],
 
@@ -521,7 +521,7 @@ class ProductsSeeder extends Seeder
           Hướng dẫn sử dụng: Dùng ngay khi nhận hàng',
           'image' => 'DauNanhNhat100g.jpg',
           'price' =>'25000',
-          'is_featured' => 1,
+          'is_featured' => 0,
           'create_date' => DATE(NOW())
           ],
 
@@ -554,7 +554,7 @@ class ProductsSeeder extends Seeder
           Hướng dẫn sử dụng: Dùng ngay khi nhận hàng ',
           'image' => 'RongBienTronMe50g.jpg',
           'price' =>'39000',
-          'is_featured' => 1,
+          'is_featured' => 0,
           'create_date' => DATE(NOW())
           ],
 
@@ -581,7 +581,7 @@ class ProductsSeeder extends Seeder
           Bảo quản : tủ mát dưới 10 độ C. Tránh ánh nắng trực tiếp, HSD: 7 ngày',
           'image' => 'SotThai.jpg',
           'price' =>'25000',
-          'is_featured' => 1,
+          'is_featured' => 0,
           'create_date' => DATE(NOW())
           ]
 
